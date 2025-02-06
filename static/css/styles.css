@@ -1,7 +1,8 @@
 /* Кастомные цвета */
 :root {
-    --custom-orange: #0c2406; /* Фон */
+    --custom-orange: #0c2406; /* Фон навигации */
     --custom-teal: #008080;   /* Текст */
+    --custom-light: #bfe9f2; /* Цвет фона сайта*/
 }
 
 /* Применение кастомных цветов */
@@ -12,6 +13,9 @@
 .bg-custom-teal {
     background-color: var(--custom-teal);
 }
+.bg-custom-light {
+    background-color: var(--custom-light);
+}
 
 .text-custom-teal {
     color: var(--custom-teal);
@@ -21,9 +25,13 @@
     color: var(--custom-orange);
 }
 
+.text-custom-light {
+    color: var(--custom-light);
+}
+
 /* Дополнительные стили */
 body {
-    font-family: 'Arial', sans-serif;
+	font-family: 'Lucida Console', Monaco, monospace;
 }
 
 .carousel-item img {
