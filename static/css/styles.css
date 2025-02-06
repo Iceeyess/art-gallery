@@ -1,0 +1,64 @@
+/* Кастомные цвета */
+:root {
+    --custom-orange: #0c2406; /* Фон */
+    --custom-teal: #008080;   /* Текст */
+}
+
+/* Применение кастомных цветов */
+.bg-custom-orange {
+    background-color: var(--custom-orange);
+}
+
+.bg-custom-teal {
+    background-color: var(--custom-teal);
+}
+
+.text-custom-teal {
+    color: var(--custom-teal);
+}
+
+.text-custom-orange {
+    color: var(--custom-orange);
+}
+
+/* Дополнительные стили */
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.carousel-item img {
+    filter: brightness(70%);
+}
+
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.btn.bg-custom-teal {
+    background-color: var(--custom-teal);
+    border-color: var(--custom-teal);
+    color: var(--custom-orange);
+}
+
+.btn.bg-custom-teal:hover {
+    background-color: #006666; /* Темнее на hover */
+    border-color: #006666;
+}
+
+/* Навигационная панель */
+.navbar.bg-custom-orange {
+    background-color: var(--custom-orange) !important;
+}
+
+.navbar .navbar-brand,
+.navbar .nav-link {
+    color: var(--custom-teal) !important;
+}
+
+.navbar .nav-link.active {
+    font-weight: bold;
+}
