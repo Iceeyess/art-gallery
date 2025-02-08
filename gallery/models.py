@@ -2,7 +2,7 @@ from email.policy import default
 
 from django.db import models
 from django.db.models import DO_NOTHING, CharField
-
+from django.shortcuts import get_object_or_404
 
 NULLABLE = dict(null=True, blank=True)
 size = dict(_40x60='40x60 см', _30x40='30x40 см', _50x60='50x60 см', _20x20='20x20 см')
@@ -33,21 +33,21 @@ class Series(models.Model):
 
 class Picture(models.Model):
 
-    @property
-    def get_name(self):
-        return f'{self.series.name} {self.id}'
 
-    @property
+    def get_name(self, pk):
+        return f'{self.series.name} {pk}'
+
+
     def get_description(self):
-        return f'Наименование модели - {self.get_name}, материал - {self.paint_property}, размер - {self.size}'
+        return f'Наименование модели - {self.get_name()}, материал - {self.paint_property}, размер - {self.size}'
 
     genre = models.ForeignKey(Genre, on_delete=DO_NOTHING, help_text='внешний ключ на жанр')
     series = models.ForeignKey(Series, on_delete=DO_NOTHING, help_text='внешний ключ на стиль')
-    name = models.CharField(max_length=100, default=get_name, help_text='серия плюс номер', **NULLABLE)
+    name = models.CharField(max_length=100, help_text='серия плюс номер', **NULLABLE)
     size = models.CharField(choices=size, max_length=None, verbose_name='размер', help_text='выберите размер')
     paint_property = models.CharField(choices=paint, verbose_name='краска', help_text='выберите свойство краски')
     picture = models.ImageField(upload_to='gallery/', verbose_name='картина', help_text='загрузите картину')
-    description = models.TextField(verbose_name='описание', default=get_description, help_text='опишите картину',
+    description = models.TextField(verbose_name='описание', help_text='опишите картину',
                                    **NULLABLE)
 
 
