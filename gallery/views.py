@@ -6,6 +6,7 @@ from gallery.apps import GalleryConfig
 
 
 # Create your views here.
-def index(self, request):
+def index(request):
+
 
     return render(request, os.path.join(GalleryConfig.name,'index.html'))

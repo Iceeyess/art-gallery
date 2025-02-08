@@ -1,0 +1,149 @@
+[
+{
+    "model": "gallery.genre",
+    "pk": 1,
+    "fields": {
+        "name": "натюрморт"
+    }
+},
+{
+    "model": "gallery.genre",
+    "pk": 2,
+    "fields": {
+        "name": "пейзаж"
+    }
+},
+{
+    "model": "gallery.genre",
+    "pk": 3,
+    "fields": {
+        "name": "цветы"
+    }
+},
+{
+    "model": "gallery.genre",
+    "pk": 4,
+    "fields": {
+        "name": "животные"
+    }
+},
+{
+    "model": "gallery.genre",
+    "pk": 5,
+    "fields": {
+        "name": "праздники"
+    }
+},
+{
+    "model": "gallery.genre",
+    "pk": 6,
+    "fields": {
+        "name": "змеи"
+    }
+},
+{
+    "model": "gallery.series",
+    "pk": 1,
+    "fields": {
+        "name": "обезьянки"
+    }
+},
+{
+    "model": "gallery.series",
+    "pk": 2,
+    "fields": {
+        "name": "розы"
+    }
+},
+{
+    "model": "gallery.series",
+    "pk": 3,
+    "fields": {
+        "name": "подсолнухи"
+    }
+},
+{
+    "model": "gallery.series",
+    "pk": 4,
+    "fields": {
+        "name": "слоны"
+    }
+},
+{
+    "model": "gallery.series",
+    "pk": 5,
+    "fields": {
+        "name": "жирафы"
+    }
+},
+{
+    "model": "gallery.series",
+    "pk": 6,
+    "fields": {
+        "name": "зебры"
+    }
+},
+{
+    "model": "gallery.series",
+    "pk": 7,
+    "fields": {
+        "name": "пасха"
+    }
+},
+{
+    "model": "gallery.series",
+    "pk": 8,
+    "fields": {
+        "name": "аисты"
+    }
+},
+{
+    "model": "gallery.series",
+    "pk": 9,
+    "fields": {
+        "name": "апельсины"
+    }
+},
+{
+    "model": "gallery.series",
+    "pk": 10,
+    "fields": {
+        "name": "цапли"
+    }
+},
+{
+    "model": "gallery.series",
+    "pk": 11,
+    "fields": {
+        "name": "голуби"
+    }
+},
+{
+    "model": "gallery.series",
+    "pk": 12,
+    "fields": {
+        "name": "олуши"
+    }
+},
+{
+    "model": "gallery.series",
+    "pk": 13,
+    "fields": {
+        "name": "питон"
+    }
+},
+{
+    "model": "gallery.series",
+    "pk": 14,
+    "fields": {
+        "name": "лисы"
+    }
+},
+{
+    "model": "gallery.series",
+    "pk": 15,
+    "fields": {
+        "name": "тигры"
+    }
+}
+]

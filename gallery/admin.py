@@ -1,8 +1,11 @@
 from django.contrib import admin
+from django.utils.html import format_html
 
 from gallery.models import Genre, Series, Picture
 
 
+admin.AdminSite.site_header = "Natalis Dominini моё арт-пространство."
+admin.AdminSite.index_title = "Администрирование сайта."
 # Register your models here.
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
@@ -16,6 +19,13 @@ class SeriesAdmin(admin.ModelAdmin):
 
 @admin.register(Picture)
 class PictureAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'genre', 'series', 'name', 'size', 'paint_property', 'picture', 'description')
-    list_display_links = ('pk', 'name', 'name', 'size', 'paint_property', )
+
+    def image_tag(self, obj):
+        """Создаем вид мини-картинки в админке под каждую картину"""
+        return format_html('<img src="{}" style="max-width:100px; max-height:100px"/>'.format(obj.picture.url))
+
+    image_tag.short_description = 'Фотка картины'
+    list_display = ('pk', 'genre', 'series', 'series_number', 'name', 'size', 'paint_property', 'picture', 'description', 'image_tag')
+    list_display_links = ('pk', 'genre', 'series', 'series_number', 'name', 'size', 'paint_property', 'picture', 'description', 'image_tag')
     list_filter = ('id', 'name', )
+    exclude = ('name', 'description', 'series_number', )

@@ -2,12 +2,14 @@ from email.policy import default
 
 from django.db import models
 from django.db.models import DO_NOTHING, CharField
-from django.shortcuts import get_object_or_404
+
 
 NULLABLE = dict(null=True, blank=True)
 size = dict(_40x60='40x60 см', _30x40='30x40 см', _50x60='50x60 см', _20x20='20x20 см')
-paint = dict(oil='масляная краска', acrylic='акриловая краска', tempera='темпера краска')
+paint = dict(oil='масляная', acrylic='акриловая', tempera='темпера')
 # Create your models here.
+
+
 class Genre(models.Model):
     name = models.CharField(max_length=100, verbose_name='жанр', help_text='введите жанр', **NULLABLE)
 
@@ -18,6 +20,7 @@ class Genre(models.Model):
         verbose_name = 'жанр'
         verbose_name_plural = 'жанры'
         ordering = ['pk', ]
+
 
 class Series(models.Model):
     name = models.CharField(max_length=100, verbose_name='серия',
@@ -31,29 +34,38 @@ class Series(models.Model):
         verbose_name_plural = 'серии'
         ordering = ['pk', ]
 
+
 class Picture(models.Model):
 
-
-    def get_name(self, pk):
-        return f'{self.series.name} {pk}'
-
-
-    def get_description(self):
-        return f'Наименование модели - {self.get_name()}, материал - {self.paint_property}, размер - {self.size}'
-
-    genre = models.ForeignKey(Genre, on_delete=DO_NOTHING, help_text='внешний ключ на жанр')
-    series = models.ForeignKey(Series, on_delete=DO_NOTHING, help_text='внешний ключ на стиль')
-    name = models.CharField(max_length=100, help_text='серия плюс номер', **NULLABLE)
-    size = models.CharField(choices=size, max_length=None, verbose_name='размер', help_text='выберите размер')
-    paint_property = models.CharField(choices=paint, verbose_name='краска', help_text='выберите свойство краски')
-    picture = models.ImageField(upload_to='gallery/', verbose_name='картина', help_text='загрузите картину')
+    genre = models.ForeignKey(Genre,verbose_name='жанр', on_delete=DO_NOTHING, help_text='внешний ключ на жанр')
+    series = models.ForeignKey(Series, verbose_name='серия', on_delete=DO_NOTHING, help_text='внешний ключ на стиль')
+    series_number = models.PositiveIntegerField(verbose_name='порядковый номер серии',
+                                                help_text='вводиться автоматически', **NULLABLE)
+    name = models.CharField(max_length=100, verbose_name='название', help_text='серия плюс номер', **NULLABLE)
+    size = models.CharField(choices=size, max_length=100, verbose_name='размер', help_text='выберите размер')
+    paint_property = models.CharField(max_length=100, choices=paint, verbose_name='краска',
+                                      help_text='выберите свойство краски')
+    picture = models.ImageField(upload_to='gallery/', verbose_name='путь к картине', help_text='загрузите картину')
     description = models.TextField(verbose_name='описание', help_text='опишите картину',
                                    **NULLABLE)
 
-
-
     def __str__(self):
         return f'Картина №{self.id}, стиль - {self.series}'
+
+    def save(self, *args, **kwargs):
+        """Переопределен для автосохранения полей self.name, self.description"""
+        # Определяем последний сохраненный объект из этой же серии, СТРОГО ДО СОХРАНЕНИЯ В БД!
+        try:
+            num = Picture.objects.filter(series=self.series).order_by().last().series_number
+        except AttributeError:
+            num = 0
+        super().save(*args, **kwargs)
+        self.name = f'Серия {self.series.name} № {self.series_number}'
+        self.description = (f'{self.name}, {paint.get(self.paint_property)} краски, размер '
+                            f'{size.get(self.size)}')
+        self.series_number = num + 1 if num else 1  # Сохраняем № серии
+        # Два раза вызов родительского сохранения из-за ID номера в БД
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'картина'
