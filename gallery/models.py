@@ -1,7 +1,5 @@
-from email.policy import default
-
 from django.db import models
-from django.db.models import DO_NOTHING, CharField
+from django.db.models import DO_NOTHING
 
 NULLABLE = dict(null=True, blank=True)
 size = dict(_40x60='40x60 см', _30x40='30x40 см', _50x60='50x60 см', _20x20='20x20 см')
