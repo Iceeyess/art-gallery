@@ -51,9 +51,6 @@ class Picture(models.Model):
     description = models.TextField(verbose_name='описание', help_text='опишите картину',
                                    **NULLABLE)
 
-    def __str__(self):
-        return f'Картина №{self.id}, стиль - {self.series}'
-
     def save(self, *args, **kwargs):
         """Переопределен для автосохранения полей self.name, self.description, self.series_number"""
         # Определяем последний сохраненный объект из этой же серии, СТРОГО ДО СОХРАНЕНИЯ В БД!
@@ -66,7 +63,24 @@ class Picture(models.Model):
         # Два раза вызов родительского сохранения из-за ID номера в БД
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return f'Картина №{self.id}, стиль - {self.series}'
+
     class Meta:
         verbose_name = 'картина'
         verbose_name_plural = 'картины'
+        ordering = ['pk', ]
+
+
+class Message(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Имя')
+    email = models.EmailField(verbose_name='Почта')
+    text = models.TextField(verbose_name='Сообщение')
+
+    def __str__(self):
+        return f'Почта - {self.email}, Имя - {self.name}'
+
+    class Meta:
+        verbose_name = 'сообщение'
+        verbose_name_plural = 'сообщения'
         ordering = ['pk', ]

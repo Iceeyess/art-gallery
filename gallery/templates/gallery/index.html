@@ -6,8 +6,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Natalis Dominini Art пространство</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/nataly.ico' %}"/>
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <style>
+        /* Скрываем меню по умолчанию */
+        #menu {
+            display: none;
+        }
+
+        /* Показываем меню, если добавлен класс .open */
+        #menu.open {
+            display: block;
+        }
+    </style>
+
 </head>
 <body class="bg-custom-light">
 
@@ -31,6 +45,9 @@
                     <a class="nav-link text-custom-teal" href="#about">О нас</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link text-custom-teal" href="#send_out">Написать нам</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link text-custom-teal" href="#contact">Контакты</a>
                 </li>
             </ul>
@@ -39,46 +56,67 @@
 </nav>
 
 <!-- Карусель -->
-<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="https://via.placeholder.com/1600x600" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <h5 class="text-custom-teal">Первая работа</h5>
-                <p class="text-custom-teal">Описание первой работы.</p>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="https://via.placeholder.com/1600x600" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <h5 class="text-custom-teal">Вторая работа</h5>
-                <p class="text-custom-teal">Описание второй работы.</p>
-            </div>
-        </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Предыдущий</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Следующий</span>
-    </button>
-</div>
+<!--<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">-->
+<!--    <div class="carousel-inner">-->
+<!--        <div class="carousel-item active">-->
+<!--            <img src="{% static 'images/vk.ico' %}" class="d-block w-10" alt="...">-->
+<!--            <div class="carousel-caption d-none d-md-block">-->
+<!--                <h5 class="text-custom-teal">Первая работа</h5>-->
+<!--                <p class="text-custom-teal">Описание первой работы.</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="carousel-item">-->
+<!--            <img src="https://via.placeholder.com/1600x600" class="d-block w-100" alt="...">-->
+<!--            <div class="carousel-caption d-none d-md-block">-->
+<!--                <h5 class="text-custom-teal">Вторая работа</h5>-->
+<!--                <p class="text-custom-teal">Описание второй работы.</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">-->
+<!--        <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+<!--        <span class="visually-hidden">Предыдущий</span>-->
+<!--    </button>-->
+<!--    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">-->
+<!--        <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+<!--        <span class="visually-hidden">Следующий</span>-->
+<!--    </button>-->
+<!--</div>-->
 
-<!-- Форма для отправки фильтра --><
-<div class="container">
-    <div class="col-2 align-center">
+
+<!-- Кнопка меню -->
+
+<!-- Форма для отправки фильтра -->
+
+<div class="container pt-3">
+    <div class="col-6">
+        <button id="toggleButton" class="btn bg-custom-orange text-custom-teal">Фильтр</button>
+    </div>
+    <div class="col-6" id="menu">
         <div class="row checkbox-row">
-            <form method="get" action="">
-                {{ form.as_p }}
-                <button type="submit" class="btn bg-custom-orange text-custom-teal">Отправить</button>
-            </form>
+            <div class="col align-center">
+                <form method="get" action="">
+
+                    {{ form.as_p }}
+                    <button type="submit" class="btn bg-custom-orange text-custom-teal">Отправить</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 
 
+
+<script>
+    // JavaScript для открытия/закрытия меню
+    const toggleButton = document.getElementById('toggleButton');
+    const menu = document.getElementById('menu');
+
+    toggleButton.addEventListener('click', () => {
+        menu.classList.toggle('open'); // Добавляем/убираем класс .open
+        toggleButton.textContent = menu.classList.contains('open') ? 'Закрыть фильтр' : 'Открыть фильтр';
+    });
+</script>
 <!-- Галерея -->
 <section id="gallery" class="container my-5">
     <h2 class="text-center mb-4 text-custom-orange">Галерея</h2>
@@ -116,20 +154,10 @@
     <h2 class="text-center mb-4 text-custom-orange">Контакты</h2>
     <div class="row">
         <div class="col-md-6 mx-auto">
-            <form method="post">
-                <div class="mb-3">
-                    <label for="name" class="form-label text-custom-orange">Имя</label>
-                    <input type="text" class="form-control" id="name" required>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label text-custom-orange">Email</label>
-                    <input type="email" class="form-control" id="email" required>
-                </div>
-                <div class="mb-3">
-                    <label for="message" class="form-label text-custom-orange">Сообщение</label>
-                    <textarea class="form-control" id="message" rows="5" required></textarea>
-                </div>
-                <button type="submit" class="btn bg-custom-orange text-custom-teal">Отправить</button>
+            <form method="post" action="">
+                {{ post_form }}
+                {% csrf_token %}
+                <button type="submit" class="btn bg-custom-orange text-custom-teal pt-auto">Отправить</button>
             </form>
         </div>
     </div>
@@ -138,7 +166,12 @@
 <!-- Футер -->
 <footer class="bg-custom-orange text-custom-teal text-center py-3">
     <div class="container">
-        <p>&copy; 2025 - {% now "Y" %} Художественная галерея. Все права защищены.</p>
+        <p>&copy; 2025 - {% now "Y" %} Natalis Dominini Art пространство . Все права защищены.</p>
+        <div class="social-media">
+            <a href="https://vk.com/id114320250"><img class="" src="{% static 'images/vk.ico' %}" height="25"></a>
+            <a href="https://wa.me/79150483686?text="><img class="" src="{% static 'images/whatsapp.ico' %}" height="25"></a>
+            <a href="https://t.me/nataleno4ek"><img class="" src="{% static 'images/t.ico' %}" height="25"></a>
+
     </div>
 </footer>
 
