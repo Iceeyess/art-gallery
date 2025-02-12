@@ -6,7 +6,7 @@ from gallery.models import Genre, Message
 
 
 class GenreForm(forms.Form):
-    # all = forms.BooleanField(label='Все', required=False)
+    """Форма фильтрации жанров"""
     genres = forms.ModelMultipleChoiceField(
         queryset=Genre.objects.all(),
         widget=forms.CheckboxSelectMultiple,
@@ -25,14 +25,16 @@ class MessageForm(forms.ModelForm):
             'email': 'Почта',
             'text': 'Сообщение',
         }
-        widgets = {
-            'name': Textarea(attrs={'class': 'form-control', 'rows': 1}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'text': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
-        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['name'].required = False
-        self.fields['email'].required = False
-        self.fields['text'].required = False
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+
+    def clean_email(self):
+        """Валидация почты, дается 3 попытки отправки сообщений с одного email"""
+        email = self.cleaned_data.get('email')
+        if len([_.email for _ in Message.objects.filter(email=email)]) >= 3:
+            raise forms.ValidationError('Дается 3 попытки отправлять сообщения от одного email.')
+
+        return email
