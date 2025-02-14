@@ -4,7 +4,8 @@ from django.shortcuts import render
 
 from gallery.apps import GalleryConfig
 from gallery.forms import GenreForm, MessageForm
-from gallery.models import Picture, Genre
+from gallery.models import Picture, Genre, Message
+from gallery.tasks import send_tg_message
 
 
 # Create your views here.
@@ -24,6 +25,8 @@ def index(request, *args, **kwargs):
         post_form = MessageForm(request.POST)  # Загружаем форму для отправки сообщения
         if post_form.is_valid():  # Если данные валидны, то сохраняем и обнуляем данные
             post_form.save()
+            name, email, text = Message.objects.last().name, Message.objects.last().email, Message.objects.last().text
+            send_tg_message.delay(name, email, text)  # Передает в телеграм сообщение владельцу
             post_form = MessageForm()
     data = dict(pictures=pictures, form=form, post_form=post_form)
     return render(request, os.path.join(GalleryConfig.name,'index.html'), context=data)

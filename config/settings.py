@@ -138,3 +138,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL[1:-1])
+
+# Celery Configuration Options
+CELERY_TIMEZONE = "Europe/Moscow"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+
+# Телеграм токен для доступа к боту
+TG_TOKEN_ACCESS_KEY = os.getenv('TG_TOKEN_ACCESS')
+TG_CHAT_ID = os.getenv('TG_CHAT_ID')
+TG_API_LINK = 'https://api.telegram.org/bot'
