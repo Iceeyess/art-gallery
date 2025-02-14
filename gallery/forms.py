@@ -29,7 +29,8 @@ class MessageForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['class'] = 'form-control'  # Стилизация формы
+            self.fields[field_name].required = False  # убрал надпись Обязательное поле
 
     def clean_email(self):
         """Валидация почты, дается 3 попытки отправки сообщений с одного email"""
