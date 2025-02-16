@@ -1,4 +1,5 @@
 import os
+from itertools import zip_longest
 
 from django.shortcuts import render
 
@@ -9,7 +10,11 @@ from gallery.tasks import send_tg_message
 
 
 # Create your views here.
-
+def grouper(iterable, n, fillvalue=None):
+    """Разбивает список на группы по n элементов."""
+    args = [iter(iterable)] * n
+    groups = zip_longest(*args, fillvalue=fillvalue)
+    return [[item for item in group if item is not None] for group in groups]
 
 def index(request, *args, **kwargs):
     """Главная страница
@@ -17,9 +22,10 @@ def index(request, *args, **kwargs):
     form = GenreForm(request.GET)  # Загружаем форму для добавления картины
     form.is_valid()
     if form.cleaned_data.get('genres') == [_.id for _ in Genre.objects.all()] or not form.cleaned_data.get('genres'):
-        pictures = Picture.objects.all()
+        pictures = list(grouper(Picture.objects.all(), 3))
     else:
         pictures = Picture.objects.filter(genre_id__in=[_.id for _ in form.cleaned_data.get('genres')])
+        pictures = list(grouper(pictures, 3))
     post_form = MessageForm(request.GET)
     if request.method == 'POST':
         post_form = MessageForm(request.POST)  # Загружаем форму для отправки сообщения
