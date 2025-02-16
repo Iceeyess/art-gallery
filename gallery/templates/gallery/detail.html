@@ -7,17 +7,13 @@
 <a href="{% url 'gallery:index' %}" class="btn bg-custom-orange text-custom-teal my-5 mx-5"
    style="align-center">Назад</a>
 <div class="container">
-    <div class="col-7">
-
-        <a href="{% get_url_picture object.picture %}">
-            <div class="artwork-container">
-                <img src="{% get_url_picture object.picture %}" alt="{{ object.name }}" class="artwork-image">
-            </div>
-        </a>
-    </div>
-    <div class="col-7">
+    <div class="col-auto bg-custom-light">
+            <a href="{% get_url_picture object.picture %}">
+                <div class="artwork-container">
+                    <img src="{% get_url_picture object.picture %}" alt="{{ object.name }}" class="artwork-image">
+                </div>
+            </a>
         <h5 class="card-title">{{ object.name }}</h5>
-
         <!-- Описание картины -->
         <p class="card-text">{{ object.description }}</p>
     </div>
