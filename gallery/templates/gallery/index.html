@@ -35,15 +35,14 @@
 
 <!-- Форма для отправки фильтра -->
 
-<div class="container pt-3">
-    <div class="col-6">
+<div class="container">
+    <div class="col-3">
         <button id="toggleButton" class="btn bg-custom-orange text-custom-teal">Фильтр</button>
     </div>
     <div class="col-6" id="menu">
         <div class="row checkbox-row">
-            <div class="col align-center">
+            <div class="col align-center text-custom-light">
                 <form method="get" action="">
-
                     {{ form.as_p }}
                     <button type="submit" class="btn bg-custom-orange text-custom-teal">Отправить</button>
                 </form>
@@ -66,7 +65,7 @@
 <!-- Галерея -->
 
 <div class="container my-auto" id="gallery">
-    <h1 class="text-center mb-4">Галерея картин</h1>
+    <h1 class="text-center mb-4 text-custom-light" style="">Галерея картин</h1>
     <!-- Карусель -->
     <div id="artCarousel" class="carousel slide" data-bs-ride="carousel">
         <!-- Слайды -->
@@ -107,7 +106,7 @@
 
 <!-- О нас -->
 <section id="about" class="">
-    <div class="container">
+    <div class="carousel my-5 mx-5">
         <h2 class="text-center mb-4 text-custom-orange">О нас</h2>
         <p class="text-center text-custom-orange">Привет! Меня зовут, Наталья. Я - художник в душе) Творю, в
             свободное
@@ -122,7 +121,7 @@
 <section id="send_out" class="container my-5">
     <h2 class="text-center mb-4 text-custom-orange">Контакты</h2>
     <div class="row">
-        <div class="col-md-6 mx-auto">
+        <div class="col-md-6 mx-auto bg-custom-light">
             <form method="post" action="">
                 {{ post_form }}
                 {% csrf_token %}
