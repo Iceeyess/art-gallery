@@ -71,3 +71,69 @@ body {
     font-weight: bold;
 }
 
+body {
+    background-color: #f8f9fa; /* Светлый фон */
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.carousel {
+    background-color: #bfe9f2;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Тень */
+    padding: 20px;
+}
+
+.carousel-inner {
+    padding: 20px 0;
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень для карточек */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05); /* Увеличение при наведении */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Усиленная тень */
+}
+
+.card-img-top {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    height: 200px; /* Фиксированная высота изображения */
+    object-fit: cover; /* Сохраняет пропорции изображения */
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+    background-color: rgba(0, 0, 0, 0); /* Фон для стрелок */
+    border-radius: 50%;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 1;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(1); /* Делает стрелки белыми */
+}
+
+.carousel-item .row {
+    display: flex;
+    justify-content: center;
+}

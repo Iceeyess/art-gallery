@@ -90,64 +90,45 @@
 </script>
 <!-- Галерея -->
 
-<div class="container my-5">
-    <h1 class="text-center mb-4">{{ object.genre }}</h1>
+<div class="container my-auto" id="gallery">
+    <h1 class="text-center mb-4">Галерея картин</h1>
     <!-- Карусель -->
     <div id="artCarousel" class="carousel slide" data-bs-ride="carousel">
-        <!-- Индикаторы (точки) -->
-        <!--            <div class="carousel-indicators">-->
-        <!--                <button type="button" data-bs-target="#artCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>-->
-        <!--                <button type="button" data-bs-target="#artCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>-->
-        <!--                <button type="button" data-bs-target="#artCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>-->
-        <!--            </div>-->
-
         <!-- Слайды -->
         <div class="carousel-inner">
-            <!-- Первый слайд -->
-            {% for object in pictures %}
-            <div class="carousel-item active">
-                <div class="card mx-auto" style="width: 18rem;">
-                    <img src="{% get_url_picture object.picture %}" class="card-img-top" alt="Картина 1">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ object.name }}</h5>
-                        <p class="card-text">{{ object.description }}</p>
+            {% for chunk in pictures %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="row">
+                    {% for image in chunk %}
+                    <div class="col-md-4">
+                        <div class="card">
+                            <a href="{% get_url_picture image.picture %}" class="">
+                            <img src="{% get_url_picture image.picture %}" class="card-img-top" alt="{{ image.name }}">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ image.name }}</h5>
+                                <p class="card-text">{{ image.description }}</p>
+                            </div>
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
             {% endfor %}
-
-
-            <!-- Кнопки навигации (стрелки) -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#artCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Предыдущий</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#artCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Следующий</span>
-            </button>
         </div>
+
+        <!-- Кнопки навигации (стрелки) -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#artCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Предыдущий</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#artCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Следующий</span>
+        </button>
     </div>
 </div>
-<!--<section id="gallery" class="container my-5">-->
-<!--    <h2 class="text-center mb-4 text-custom-orange">Галерея</h2>-->
-<!--    <div class="row">-->
-<!--        {% for object in pictures %}-->
-<!--        <div class="col-md-4 mb-4">-->
-<!--            <div class="card">-->
-<!--                <a href="{% get_url_picture object.picture %}"><img src="{% get_url_picture object.picture %}"-->
-<!--                                                                    style="height: auto; object-fit: cover;"-->
-<!--                                                                    class="card-img-top img-fluid"-->
-<!--                                                                    alt="{{ object.name }}"></a>-->
-<!--                <div class="card-body">-->
-<!--                    <h5 class="card-title text-custom-orange">{{ object.name }}</h5>-->
-<!--                    <p class="card-text text-custom-orange">{{ object.description }}</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        {% endfor %}-->
-<!--    </div>-->
-<!--</section>-->
+
 
 <!-- О нас -->
 <section id="about" class="">
