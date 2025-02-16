@@ -1,0 +1,45 @@
+{% extends 'gallery/base.html' %}
+{% load path %}
+{% block content %}
+
+{% include 'gallery/header.html' %}
+
+<a href="{% url 'gallery:index' %}" class="btn bg-custom-orange text-custom-teal my-5 mx-5"
+   style="align-center">Назад</a>
+<div class="container">
+    <div class="col-7">
+
+        <a href="{% get_url_picture object.picture %}">
+            <div class="artwork-container">
+                <img src="{% get_url_picture object.picture %}" alt="{{ object.name }}" class="artwork-image">
+            </div>
+        </a>
+    </div>
+    <div class="col-7">
+        <h5 class="card-title">{{ object.name }}</h5>
+
+        <!-- Описание картины -->
+        <p class="card-text">{{ object.description }}</p>
+    </div>
+</div>
+<script>
+    function zoomImage(container) {
+        const img = container.querySelector('.artwork-image');
+        img.classList.toggle('zoomed');
+    }
+</script>
+
+<style>
+    .zoomed {
+        max-width: none;
+        max-height: none;
+        width: 100%;
+        height: 100%;
+        cursor: zoom-out;
+    }
+</style>
+<a href="{% url 'gallery:index' %}" class="btn bg-custom-orange text-custom-teal my-5 mx-5"
+   style="align-center">Назад</a>
+
+
+{% endblock %}
