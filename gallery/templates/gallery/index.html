@@ -1,16 +1,20 @@
 {% extends 'gallery/base.html' %}
-{% load path %}
+{% load path static %}
 
 {% block content %}
 
 <!-- Навигационная панель -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-custom-orange">
     <div class="container">
-        <a class="navbar-brand text-custom-teal" href="#">Natalis Dominini моё арт-пространство</a>
+        <div style="height: 40px;">
+            <img src="{% static 'assets/new_logo.jpeg' %}" class="h-50">
+        </div>
+        <a class="navbar-brand text-custom-teal" href="">Natalis Dominini моё арт-пространство</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
@@ -36,7 +40,7 @@
 <!-- Форма для отправки фильтра -->
 
 <div class="container">
-    <div class="col-3">
+    <div class="col-3 mx-5 my-5">
         <button id="toggleButton" class="btn bg-custom-orange text-custom-teal">Фильтр</button>
     </div>
     <div class="col-6" id="menu">
@@ -77,7 +81,8 @@
                     <div class="col-md-4">
                         <div class="card">
                             <a href="{% url 'gallery:detail' image.pk %}" class="">
-                            <img src="{% get_url_picture image.picture %}" class="card-img-top" alt="{{ image.name }}">
+                                <img src="{% get_url_picture image.picture %}" class="card-img-top"
+                                     alt="{{ image.name }}">
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title">{{ image.name }}</h5>
