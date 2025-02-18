@@ -92,7 +92,7 @@ if is_for_server:
         'default': {
             'ENGINE': os.getenv('DATABASE_ENGINE'),
             'NAME': os.getenv('DATABASE_NAME'),
-
+            'USER': os.getenv('DATABASE_USER'),
         }
     }
 else:
