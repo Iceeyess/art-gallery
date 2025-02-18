@@ -16,10 +16,17 @@ from dotenv import load_dotenv
 
 from gallery.apps import GalleryConfig
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Build paths inside the project like this: BASE_DIR / 'subdir'
+is_for_server = True
 BASE_DIR = Path(__file__).resolve().parent.parent
-dot_env = os.path.join(BASE_DIR, '.env')
-load_dotenv(dotenv_path=dot_env)
+
+# Load environment variables from.env file
+if is_for_server:
+    dot_env = os.path.join(BASE_DIR, '.env.server')
+    load_dotenv(dotenv_path=dot_env)
+else:
+    dot_env = os.path.join(BASE_DIR, '.env')
+    load_dotenv(dotenv_path=dot_env)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -42,7 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'gallery'
+    'gallery',
 ]
 
 MIDDLEWARE = [
@@ -80,17 +87,25 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+if is_for_server:
+    DATABASES = {
+        'default': {
+            'ENGINE': os.getenv('DATABASE_ENGINE'),
+            'NAME': os.getenv('DATABASE_NAME'),
 
-DATABASES = {
-    'default': {
-        'ENGINE': os.getenv('DATABASE_ENGINE'),
-        'NAME': os.getenv('DATABASE_NAME'),
-        'HOST': os.getenv('DATABASE_HOST'),
-        'PORT': os.getenv('DATABASE_PORT'),
-        'USER': os.getenv('DATABASE_USER'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD')
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': os.getenv('DATABASE_ENGINE'),
+            'NAME': os.getenv('DATABASE_NAME'),
+            'HOST': os.getenv('DATABASE_HOST'),
+            'PORT': os.getenv('DATABASE_PORT'),
+            'USER': os.getenv('DATABASE_USER'),
+            'PASSWORD': os.getenv('DATABASE_PASSWORD')
+        }
+    }
 
 
 # Password validation
@@ -147,6 +162,9 @@ CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
 
 # Телеграм токен для доступа к боту
+if is_for_server:
+    TG_CHAT_ID = os.getenv('TG_CHAT_ID')
+else:
+    TG_CHAT_ID = os.getenv('TG_CHAT_ID')
 TG_TOKEN_ACCESS_KEY = os.getenv('TG_TOKEN_ACCESS')
-TG_CHAT_ID = os.getenv('TG_CHAT_ID')
 TG_API_LINK = 'https://api.telegram.org/bot'
