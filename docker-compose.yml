@@ -10,9 +10,19 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings
       - ALLOWED_HOSTS=natalis-domini.ru,localhost,192.144.12.96
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=mydb
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DJANGO_SECRET_KEY=django-insecure-y8$g$aq1k-t2iptca%((9b6ml6dv7d@(53(*ltvqw14#1h-(v(
+      - TG_TOKEN_ACCESS=7673470497:AAH2zHMgzfp3IC1NCQ0L6pQBqaV-lrwC_uo
+      - TG_CHAT_ID=651782561
     depends_on:
       - db
       - redis
+
 
   db:
     image: postgres:13
