@@ -99,8 +99,9 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'artgallery',  # Имя базы данных
-            'USER': 'postgres',  # Пользователь
+            'NAME': 'mydb',  # Имя базы данных
+            'USER': 'myuser',  # Пользователь
+            'PASSWORD': 'mypassword',  # Пароль
             'HOST': 'db',  # Имя сервиса в docker-compose.yml
             'PORT': '5432',  # Порт PostgreSQL
         }
