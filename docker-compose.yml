@@ -16,9 +16,9 @@ services:
 
   db:
     image: postgres:13
-    environment:
-      POSTGRES_DB: artgallery
-      POSTGRES_USER: postgres
+  environment:
+    POSTGRES_DB: artgallery
+    POSTGRES_USER: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 
