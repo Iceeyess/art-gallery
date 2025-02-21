@@ -98,7 +98,7 @@ if is_for_server:
 else:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
+            'ENGINE': 'django.db.backends.postgresql',  # Используйте 'postgresql', а не 'postgresql_psycopg2'
             'NAME': 'mydb',  # Имя базы данных
             'USER': 'myuser',  # Пользователь
             'PASSWORD': 'mypassword',  # Пароль
