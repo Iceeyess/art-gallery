@@ -9,17 +9,16 @@ services:
       - .:/app
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings
-      - ALLOWED_HOSTS=natalis-domini.ru,localhost,192.144.12.96
       - DB_ENGINE=django.db.backends.postgresql
       - DB_NAME=mydb
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
       - DB_HOST=db
       - DB_PORT=5432
+      - ALLOWED_HOSTS=natalis-domini.ru,localhost,192.144.12.96
     depends_on:
       - db
       - redis
-
 
   db:
     image: postgres:13
@@ -44,6 +43,12 @@ services:
       - .:/app
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=mydb
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+      - DB_HOST=db
+      - DB_PORT=5432
     depends_on:
       - db
       - redis
