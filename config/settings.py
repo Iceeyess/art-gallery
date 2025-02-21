@@ -98,12 +98,12 @@ if is_for_server:
 else:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',  # Используйте 'postgresql', а не 'postgresql_psycopg2'
-            'NAME': 'mydb',  # Имя базы данных
-            'USER': 'myuser',  # Пользователь
-            'PASSWORD': 'mypassword',  # Пароль
-            'HOST': 'db',  # Имя сервиса в docker-compose.yml
-            'PORT': '5432',  # Порт PostgreSQL
+            'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
+            'NAME': os.getenv('DB_NAME', 'mydb'),
+            'USER': os.getenv('DB_USER', 'myuser'),
+            'PASSWORD': os.getenv('DB_PASSWORD', 'mypassword'),
+            'HOST': os.getenv('DB_HOST', 'db'),
+            'PORT': os.getenv('DB_PORT', '5432'),
         }
     }
 
