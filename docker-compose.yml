@@ -36,11 +36,13 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings
       - DB_ENGINE=django.db.backends.postgresql
-      - DB_NAME=mydb
-      - DB_USER=myuser
-      - DB_PASSWORD=mypassword
+      - DB_NAME=artgallery
+      - DB_USER=postgres
+      - DB_PASSWORD=qwerty12345
       - DB_HOST=db
       - DB_PORT=5432
+      - CELERY_BROKER_URL=redis://redis:6379
+      - CELERY_RESULT_BACKEND=redis://redis:6379
     depends_on:
       - db
       - redis
