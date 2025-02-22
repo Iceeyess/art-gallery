@@ -128,8 +128,8 @@
     <div class="row">
         <div class="col-md-6 mx-auto bg-custom-light">
             <form method="post" action="">
-                {{ post_form }}
                 {% csrf_token %}
+                {{ post_form }}
                 <button type="submit" class="btn bg-custom-orange text-custom-teal pt-auto">Отправить</button>
             </form>
         </div>
