@@ -4,13 +4,15 @@ services:
   web:
     build: .
     ports:
-      - "8000:8000"  # Внутренний порт для Django
+      - "8000:8000"
     volumes:
       - .:/app
     env_file: ".env.server"
     depends_on:
       - db
       - redis
+    networks:
+      - app-network
 
   db:
     image: postgres:latest
@@ -20,6 +22,8 @@ services:
       POSTGRES_PASSWORD: qwerty12345
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - app-network
 
   redis:
     image: redis:latest
@@ -27,6 +31,8 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
+    networks:
+      - app-network
 
   celery:
     build: .
@@ -46,6 +52,8 @@ services:
     depends_on:
       - db
       - redis
+    networks:
+      - app-network
 
   nginx:
     image: nginx:latest
@@ -57,7 +65,13 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt
     depends_on:
       - web
+    networks:
+      - app-network
 
 volumes:
   postgres_data:
   redis_data:
+
+networks:
+  app-network:
+    driver: bridge
