@@ -168,3 +168,12 @@ else:
     TG_CHAT_ID = os.getenv('TG_CHAT_ID')
 TG_TOKEN_ACCESS_KEY = os.getenv('TG_TOKEN_ACCESS')
 TG_API_LINK = 'https://api.telegram.org/bot'
+
+CACHES_ENABLED = os.getenv('CACHES_ENABLED')
+if CACHES_ENABLED:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": os.getenv('CACHE_LOCATION'),
+        }
+    }
