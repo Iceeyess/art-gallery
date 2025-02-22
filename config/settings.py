@@ -165,10 +165,8 @@ CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
 
 # Телеграм токен для доступа к боту
-if is_for_server:
-    TG_CHAT_ID = os.getenv('TG_CHAT_ID')
-else:
-    TG_CHAT_ID = os.getenv('TG_CHAT_ID')
+
+TG_CHAT_ID = os.getenv('TG_CHAT_ID')
 TG_TOKEN_ACCESS_KEY = os.getenv('TG_TOKEN_ACCESS')
 TG_API_LINK = 'https://api.telegram.org/bot'
 
@@ -180,3 +178,7 @@ if CACHES_ENABLED:
             "LOCATION": os.getenv('CACHE_LOCATION'),
         }
     }
+
+CSRF_TRUSTED_ORIGINS = ['https://natalis-domini.ru', 'https://www.natalis-domini.ru']
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
