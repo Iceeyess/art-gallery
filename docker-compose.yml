@@ -7,8 +7,7 @@ services:
       - "8000:8000"  # Внутренний порт для Django
     volumes:
       - .:/app
-    environment:
-      env_file: ".env.server"
+    env_file: ".env.server"
     depends_on:
       - db
       - redis
