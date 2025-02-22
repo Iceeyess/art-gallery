@@ -1,6 +1,9 @@
 # Используем официальный образ Python
 FROM python:3.10-slim
 
+# Установка зависимостей
+RUN apt-get update && apt-get install -y postgresql-client
+
 # Устанавливаем рабочую директорию
 WORKDIR /app
 
