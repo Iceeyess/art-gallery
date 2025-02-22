@@ -8,24 +8,17 @@ services:
     volumes:
       - .:/app
     environment:
-      - DJANGO_SETTINGS_MODULE=config.settings
-      - DB_ENGINE=django.db.backends.postgresql
-      - DB_NAME=mydb
-      - DB_USER=myuser
-      - DB_PASSWORD=mypassword
-      - DB_HOST=db
-      - DB_PORT=5432
-      - ALLOWED_HOSTS=natalis-domini.ru,localhost,192.144.12.96
+      env_file: ".env.server"
     depends_on:
       - db
       - redis
 
   db:
-    image: postgres:13
+    image: postgres:latest
     environment:
-      POSTGRES_DB: mydb
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: artgallery
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qwerty12345
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 
