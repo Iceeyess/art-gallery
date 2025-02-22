@@ -14,7 +14,7 @@ services:
       - redis
 
   db:
-    image: postgres:latest
+    image: postgres:13
     environment:
       POSTGRES_DB: artgallery
       POSTGRES_USER: postgres
