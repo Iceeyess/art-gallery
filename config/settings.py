@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 from gallery.apps import GalleryConfig
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'
-is_for_server = True
+is_for_server = False
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variables from.env file
@@ -161,9 +161,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL[1:-1])
 CELERY_TIMEZONE = "Europe/Moscow"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-if not is_for_server:
-    CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
-    CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
 
 # Телеграм токен для доступа к боту
 
