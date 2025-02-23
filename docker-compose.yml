@@ -7,48 +7,8 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
+      - static_volume:/app/static  # Монтируем статические файлы в общий том
     env_file: ".env.server"
-    depends_on:
-      - db
-      - redis
-    networks:
-      - app-network
-
-  db:
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: artgallery
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: qwerty12345
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    networks:
-      - app-network
-
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    networks:
-      - app-network
-
-  celery:
-    build: .
-    command: celery -A config worker -l INFO
-    volumes:
-      - .:/app
-    environment:
-      - DJANGO_SETTINGS_MODULE=config.settings
-      - DB_ENGINE=django.db.backends.postgresql
-      - DB_NAME=artgallery
-      - DB_USER=postgres
-      - DB_PASSWORD=qwerty12345
-      - DB_HOST=db
-      - DB_PORT=5432
-      - CELERY_BROKER_URL=redis://redis:6379
-      - CELERY_RESULT_BACKEND=redis://redis:6379
     depends_on:
       - db
       - redis
@@ -63,6 +23,7 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - /etc/letsencrypt:/etc/letsencrypt
+      - static_volume:/app/static  # Монтируем общий том с статическими файлами
     depends_on:
       - web
     networks:
@@ -71,6 +32,7 @@ services:
 volumes:
   postgres_data:
   redis_data:
+  static_volume:  # Общий том для статических файлов
 
 networks:
   app-network:
