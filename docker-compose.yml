@@ -8,6 +8,7 @@ services:
     volumes:
       - .:/app
       - static_volume:/app/static  # Монтируем статические файлы в общий том
+      - media:/apps.media  # Media
     env_file: ".env.server"
     depends_on:
       - db
@@ -65,6 +66,7 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - /etc/letsencrypt:/etc/letsencrypt
       - static_volume:/app/static  # Монтируем общий том с статическими файлами
+      - ./media:/app/media
     depends_on:
       - web
     networks:
