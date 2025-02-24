@@ -76,6 +76,7 @@ volumes:
   postgres_data:
   redis_data:
   static_volume:  # Общий том для статических файлов
+  media:  # Том для медиафайлов
 
 networks:
   app-network:
