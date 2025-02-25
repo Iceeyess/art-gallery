@@ -1,7 +1,4 @@
 from django import forms
-from django.db.models import CharField, TextField, EmailField
-from django.forms import Textarea
-
 from gallery.models import Genre, Message
 
 
@@ -14,6 +11,7 @@ class GenreForm(forms.Form):
         label="Выберите жанры:",
         help_text="Можно выбрать несколько жанров.",
     )
+
 
 class MessageForm(forms.ModelForm):
 

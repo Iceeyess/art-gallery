@@ -17,6 +17,7 @@ def grouper(iterable, n, fillvalue=None):
     groups = zip_longest(*args, fillvalue=fillvalue)
     return [[item for item in group if item is not None] for group in groups]
 
+
 def index(request, *args, **kwargs):
     """Главная страница
     На главной странице 2 формы: Форма фильтрации жанров с методом GET, и форма обратной связи с методом POST."""
@@ -36,7 +37,8 @@ def index(request, *args, **kwargs):
             send_tg_message.delay(name, email, text)  # Передает в телеграм сообщение владельцу
             post_form = MessageForm()
     data = dict(pictures=pictures, form=form, post_form=post_form)
-    return render(request, os.path.join(GalleryConfig.name,'index.html'), context=data)
+    return render(request, os.path.join(GalleryConfig.name, 'index.html'), context=data)
+
 
 def picture_detail(request, pk):
     obj = Picture.objects.get(pk=pk)
