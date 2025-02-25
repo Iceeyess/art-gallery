@@ -1,5 +1,5 @@
 from django import template
-from  os.path import join
+from os.path import join
 
 from config.settings import MEDIA_URL
 

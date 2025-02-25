@@ -25,4 +25,4 @@ urlpatterns = [
     path('', include('gallery.urls', namespace='gallery')),
 ]
 
-urlpatterns +=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
