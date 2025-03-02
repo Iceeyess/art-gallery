@@ -2,8 +2,10 @@ from django.db import models
 from django.db.models import DO_NOTHING
 
 NULLABLE = dict(null=True, blank=True)
-size = dict(_40x60='40x60 см', _30x40='30x40 см', _50x60='50x60 см', _20x20='20x20 см')
-paint = dict(oil='масляные', acrylic='акриловые', tempera='темпера')
+size = dict(_40x60='40x60 см', _30x40='30x40 см', _50x60='50x60 см', _20x20='20x20 см', _70x20='70x20 см',
+            _60x80='60x80 см', _40x50='40x50 см', _50x70='50x70 см', )
+paint = dict(oil='масляные', acrylic='акриловые', tempera='темпера', guash='гуашь', aquarel='акварель',
+             oil_postel='масляная пастель')
 materials = dict(thick_cardboard='плотный картон, хлопок', fiberboard_canvas='холст на ДВП, хлопок',
                  canvas_on_a_stretcher='холст на подрамнике')
 
@@ -12,7 +14,7 @@ materials = dict(thick_cardboard='плотный картон, хлопок', fi
 
 
 class Genre(models.Model):
-    name = models.CharField(max_length=100, verbose_name='жанр', help_text='введите жанр', **NULLABLE)
+    name = models.CharField(max_length=100, unique=True, verbose_name='жанр', help_text='введите жанр', **NULLABLE)
 
     def __str__(self):
         return self.name
@@ -24,7 +26,7 @@ class Genre(models.Model):
 
 
 class Series(models.Model):
-    name = models.CharField(max_length=100, verbose_name='серия',
+    name = models.CharField(max_length=100, verbose_name='серия', unique=True,
                             help_text='серия, например, птица или обезьянки и т.д.', **NULLABLE)
 
     def __str__(self):
