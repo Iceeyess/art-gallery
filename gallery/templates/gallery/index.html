@@ -4,7 +4,7 @@
 {% block content %}
 
 <!-- Навигационная панель -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-custom-orange">
+<nav class="navbar navbar-expand-lg navbar-dark bg-custom-orange" xmlns="http://www.w3.org/1999/html">
     <div class="container">
         <div style="height: 40px;">
             <img src="{% static 'assets/new_logo.jpeg' %}" class="h-50">
@@ -107,18 +107,38 @@
         </button>
     </div>
 </div>
-
+<br><>
 
 <!-- О нас -->
-<section id="about" class="">
-    <div class="carousel my-5 mx-5">
-        <h2 class="text-center mb-4 text-custom-orange">О нас</h2>
-        <p class="text-center text-custom-orange">Привет! Меня зовут, Наталья. Я - художник в душе) Творю, в
-            свободное
-            время. Буду рада, если тебе понравится, то, что я делаю, и ты захочешь купить мою картину. Работаю с
-            фотоматериалом из интернета. Все, что представлено на сайте можно купить. Если, есть вопросы, то с
-            радостью
-            отвечу.</p>
+<section id="about">
+    <div class="container">
+        <div class="row justify-content-center"> <!-- Центрируем ряд -->
+            <div class="col-auto"> <!-- Автоматическая ширина колонки -->
+                <div class="card shadow-lg" style="max-width: 800px;">
+                    <div class="row g-0">
+                        <!-- Изображение -->
+                        <div class="col-md-5">
+                            <img
+                                src="{% static 'images/art-owner.enc' %}"
+                                class="img-fluid rounded-start h-100"
+                                alt="Описание изображения"
+                                style="object-fit: cover;"
+                            >
+                        </div>
+                        <!-- Текст -->
+                        <div class="col-md-7 bg-custom-light p-4">
+                            <h4 class="text-custom-orange mb-3">О нас</h4>
+                            <p class="text-custom-teal">
+                                Привет! Меня зовут Наталья. Я - художник. Буду рада, если тебе понравится
+                                то, что я делаю, и ты захочешь купить мою картину. Работаю с фотоматериалом из интернета. Всё
+                                что представлено
+                                на сайте, можно купить. Если есть вопросы, то с радостью отвечу)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
