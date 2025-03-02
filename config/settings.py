@@ -150,7 +150,8 @@ if not is_for_server:
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'static')    # Для разработки
     ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')   # Для Продакшн
+if is_for_server:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')   # Для Продакшн
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
