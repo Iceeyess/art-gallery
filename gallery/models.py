@@ -56,12 +56,14 @@ class Picture(models.Model):
     def save(self, *args, **kwargs):
         """Переопределен для автосохранения полей self.name, self.description, self.series_number"""
         # Определяем последний сохраненный объект из этой же серии, СТРОГО ДО СОХРАНЕНИЯ В БД!
-        num = getattr(Picture.objects.filter(series=self.series).order_by().last(), 'series_number', None)
-        super().save(*args, **kwargs)
-        self.series_number = num + 1 if num else 1  # Сохраняем № серии
-        self.name = f'Серия {self.series.name} № {self.series_number}'
-        self.description = (f'{self.name}, {paint.get(self.paint_property)} краски, размер '
-                            f'{size.get(self.size)}')
+        is_update = self.pk is not None
+        if not is_update:
+            num = getattr(Picture.objects.filter(series=self.series).order_by().last(), 'series_number', None)
+            super().save(*args, **kwargs)
+            self.series_number = num + 1 if num else 1  # Сохраняем № серии
+            self.name = f'Серия {self.series.name} № {self.series_number}'
+            self.description = (f'{self.name}, {paint.get(self.paint_property)} краски, размер '
+                                f'{size.get(self.size)}')
         # Два раза вызов родительского сохранения из-за ID номера в БД
         super().save(*args, **kwargs)
 
