@@ -158,7 +158,7 @@ if is_for_server:
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL[1:-1])
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Celery Configuration Options
 CELERY_TIMEZONE = "Europe/Moscow"

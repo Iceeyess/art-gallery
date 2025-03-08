@@ -8,16 +8,23 @@ services:
     volumes:
       - .:/app
       - static_volume:/app/static  # Монтируем статические файлы в общий том
-      - media:/apps/media  # Media
+      - media:/app/media  # Media
     env_file: ".env.server"
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
     networks:
       - app-network
 
   db:
     image: postgres:latest
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     environment:
       POSTGRES_DB: artgallery
       POSTGRES_USER: postgres
@@ -52,8 +59,10 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379
       - CELERY_RESULT_BACKEND=redis://redis:6379
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
     networks:
       - app-network
 
@@ -65,8 +74,8 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - /etc/letsencrypt:/etc/letsencrypt
-      - static_volume:/app/static  # Монтируем общий том с статическими файлами
-      - ./media:/app/media
+      - static_volume:/app/static  # Монтируем общий том со статическими файлами
+      - media:/app/media
     depends_on:
       - web
     networks:
