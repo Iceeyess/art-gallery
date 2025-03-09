@@ -36,6 +36,12 @@ services:
 
   redis:
     image: redis:latest
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]  # Команда для проверки состояния
+      interval: 30s  # Интервал между проверками (увеличено с 5s до 30s)
+      timeout: 10s   # Таймаут для выполнения команды (увеличено с 5s до 10s)
+      retries: 5     # Количество попыток перед пометкой контейнера как "unhealthy"
+      start_period: 10s  # Время на запуск Redis перед началом проверок
     ports:
       - "6379:6379"
     volumes:
@@ -62,7 +68,7 @@ services:
       db:
         condition: service_healthy
       redis:
-        condition: service_started
+        condition: service_healthy
     networks:
       - app-network
 
