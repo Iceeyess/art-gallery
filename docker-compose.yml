@@ -45,8 +45,8 @@ services:
     command: redis-server --requirepass qwerty12345
     environment:
         REDIS_PASSWORD: qwerty12345
-    ports:
-      - "6379:6379"
+#    ports:   # Убрал, чтобы не было атак извне
+#      - "6379:6379"
     volumes:
       - redis_data:/data
     networks:
@@ -65,8 +65,8 @@ services:
       - DB_PASSWORD=qwerty12345
       - DB_HOST=db
       - DB_PORT=5432
-      - CELERY_BROKER_URL=redis://redis:6379
-      - CELERY_RESULT_BACKEND=redis://redis:6379
+      - CELERY_BROKER_URL=redis://:qwerty12345@redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://:qwerty12345@redis:6379/0
     depends_on:
       db:
         condition: service_healthy
