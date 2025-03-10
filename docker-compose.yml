@@ -42,6 +42,9 @@ services:
       timeout: 10s   # Таймаут для выполнения команды (увеличено с 5s до 10s)
       retries: 5     # Количество попыток перед пометкой контейнера как "unhealthy"
       start_period: 10s  # Время на запуск Redis перед началом проверок
+    command: redis-server --requirepass qwerty12345
+    environment:
+        REDIS_PASSWORD: qwerty12345
     ports:
       - "6379:6379"
     volumes:
