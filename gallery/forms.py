@@ -17,7 +17,7 @@ class MessageForm(forms.ModelForm):
 
     class Meta:
         model = Message
-        fields = '__all__'
+        fields = ['name', 'email', 'text']
         labels = {
             'name': 'Имя',
             'email': 'Почта',

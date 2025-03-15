@@ -2,7 +2,7 @@ import os
 from itertools import zip_longest
 
 from django.shortcuts import render
-
+from ipware import get_client_ip
 from gallery.apps import GalleryConfig
 from gallery.forms import GenreForm, MessageForm
 from gallery.models import Picture, Genre, Message
@@ -32,9 +32,11 @@ def index(request, *args, **kwargs):
     if request.method == 'POST':
         post_form = MessageForm(request.POST)  # Загружаем форму для отправки сообщения
         if post_form.is_valid():  # Если данные валидны, то сохраняем и обнуляем данные
-            post_form.save()
-            name, email, text = Message.objects.last().name, Message.objects.last().email, Message.objects.last().text
-            send_tg_message.delay(name, email, text)  # Передает в телеграм сообщение владельцу
+            client_ip = get_client_ip(request)[0]
+            form = post_form.save()
+            form.client_ip = client_ip
+            form.save()
+            send_tg_message.delay(form.name, form.email, form.text, form.client_ip, form.created_at)  # Передает в телеграм сообщение владельцу
             post_form = MessageForm()
     data = dict(pictures=pictures, form=form, post_form=post_form)
     return render(request, os.path.join(GalleryConfig.name, 'index.html'), context=data)
