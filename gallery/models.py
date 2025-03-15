@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models import DO_NOTHING
 
+
+
 NULLABLE = dict(null=True, blank=True)
 size = dict(_40x60='40x60 см', _30x40='30x40 см', _50x60='50x60 см', _20x20='20x20 см', _70x20='70x20 см',
             _60x80='60x80 см', _40x50='40x50 см', _50x70='50x70 см', )
@@ -77,9 +79,12 @@ class Picture(models.Model):
 
 
 class Message(models.Model):
+    client_ip = models.GenericIPAddressField(verbose_name='IP-адрес клиента', **NULLABLE)
     name = models.CharField(max_length=100, verbose_name='Имя')
     email = models.EmailField(verbose_name='Почта')
     text = models.TextField(verbose_name='Сообщение')
+    created_at = models.DateTimeField(verbose_name='Дата и время создания', auto_now_add=True)
+    update_at = models.DateTimeField(verbose_name='Дата и время обновления', auto_now=True)
 
     def __str__(self):
         return f'Почта - {self.email}, Имя - {self.name}'
