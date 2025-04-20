@@ -32,15 +32,16 @@ class PictureAdmin(admin.ModelAdmin):
     image_tag.short_description = 'Фотка картины'
     list_display = (
                     'pk', 'genre', 'series', 'series_number', 'name', 'size', 'paint_property', 'picture',
-                    'description', 'image_tag')
+                    'description', 'image_tag', )
     list_display_links = (
                     'pk', 'genre', 'series', 'series_number', 'name', 'size', 'paint_property', 'picture',
-                    'description', 'image_tag')
+                    'description', 'image_tag', )
     list_filter = ('id', 'name',)
-    exclude = ('name', 'description', 'series_number',)
+    exclude = ('name', 'description', 'series_number', )
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'email', 'text', 'created_at',)
-    list_display_links = ('pk', 'name', 'email', 'text', 'created_at',)
-    list_filter = ('created_at',)
+    list_display = ('pk', 'name', 'email', 'text', 'created_at', )
+    list_display_links = ('pk', 'name', 'email', 'text', 'created_at', )
+    list_filter = ('created_at', )
+    ordering = ('-created_at', )  # Добавил сортировку по убыванию
