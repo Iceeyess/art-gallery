@@ -1,8 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from gallery.models import Genre, Series, Picture
-
+from gallery.models import Genre, Series, Picture, Message
 
 admin.AdminSite.site_header = "Natalis Dominini моё арт-пространство."
 admin.AdminSite.index_title = "Администрирование сайта."
@@ -39,3 +38,9 @@ class PictureAdmin(admin.ModelAdmin):
                     'description', 'image_tag')
     list_filter = ('id', 'name',)
     exclude = ('name', 'description', 'series_number',)
+
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'name', 'email', 'text', 'created_at',)
+    list_display_links = ('pk', 'name', 'email', 'text', 'created_at',)
+    list_filter = ('created_at',)
