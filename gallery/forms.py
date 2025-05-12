@@ -32,10 +32,9 @@ class MessageForm(forms.ModelForm):
             field.widget.attrs['class'] = 'form-control'  # Стилизация формы
             self.fields[field_name].required = False  # убрал надпись Обязательное поле
 
-    def clean_email(self):
-        """Валидация почты, дается 3 попытки отправки сообщений с одного email"""
-        email = self.cleaned_data.get('email')
-        if len([_.email for _ in Message.objects.filter(email=email)]) >= 3:
-            raise forms.ValidationError('Дается 3 попытки отправлять сообщения от одного email.')
-
-        return email
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        if email and len([_.email for _ in Message.objects.filter(email=email)]) >= 3:
+            self.add_error(None, 'Дается 3 попытки отправлять сообщения от одного email.')
+        return cleaned_data
