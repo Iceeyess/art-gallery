@@ -1,3 +1,4 @@
+from captcha.fields import CaptchaField
 from django import forms
 from gallery.models import Genre, Message
 
@@ -14,10 +15,11 @@ class GenreForm(forms.Form):
 
 
 class MessageForm(forms.ModelForm):
+    captcha = CaptchaField(fields="Проверочный код")
 
     class Meta:
         model = Message
-        fields = ['name', 'email', 'text']
+        fields = ['name', 'email', 'text', ]
         labels = {
             'name': 'Имя',
             'email': 'Почта',

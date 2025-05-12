@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 from gallery.apps import GalleryConfig
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'
-is_for_server = True
+is_for_server = False
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variables from.env file
@@ -49,8 +49,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'captcha',
     'gallery',
 ]
+CAPTCHA_FONT_SIZE = 60
+CAPTCHA_IMAGE_SIZE = (200, 100)
+CAPTCHA_BACKGROUND_COLOR = '#006666'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
