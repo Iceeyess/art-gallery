@@ -15,7 +15,7 @@ class GenreForm(forms.Form):
 
 
 class MessageForm(forms.ModelForm):
-    captcha = CaptchaField()
+    captcha = CaptchaField(label='Введите код с картинки')
 
     class Meta:
         model = Message
