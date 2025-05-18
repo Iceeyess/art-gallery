@@ -41,7 +41,7 @@ class PictureAdmin(admin.ModelAdmin):
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'email', 'text', 'created_at', )
-    list_display_links = ('pk', 'name', 'email', 'text', 'created_at', )
-    list_filter = ('created_at', )
+    list_display = ('pk', 'client_ip', 'name', 'email', 'text', 'created_at', )
+    list_display_links = ('pk', 'client_ip', 'name', 'email', 'text', 'created_at', )
+    list_filter = ('client_ip', 'name', 'email', 'created_at', )
     ordering = ('-created_at', )  # Добавил сортировку по убыванию
