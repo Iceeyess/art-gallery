@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 
 from gallery.apps import GalleryConfig
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'
 is_for_server = True
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -52,9 +53,10 @@ INSTALLED_APPS = [
     'captcha',
     'gallery',
 ]
-CAPTCHA_FONT_SIZE = 60
-CAPTCHA_IMAGE_SIZE = (200, 100)
+CAPTCHA_FONT_SIZE = 40
+CAPTCHA_IMAGE_SIZE = (200, 70)
 CAPTCHA_BACKGROUND_COLOR = '#006666'
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
