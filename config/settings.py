@@ -38,7 +38,10 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
+if is_for_server:
+    ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
+else:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -53,10 +56,29 @@ INSTALLED_APPS = [
     'captcha',
     'gallery',
 ]
-CAPTCHA_FONT_SIZE = 40
-CAPTCHA_IMAGE_SIZE = (200, 70)
-CAPTCHA_BACKGROUND_COLOR = '#006666'
-CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'
+
+# Увеличиваем сложность CAPTCHA
+CAPTCHA_FONT_SIZE = 45  # Чуть крупнее, но не слишком
+CAPTCHA_IMAGE_SIZE = (220, 80)  # Немного увеличим размер
+CAPTCHA_BACKGROUND_COLOR = '#003366'  # Темный фон
+CAPTCHA_FOREGROUND_COLOR = '#FFCC00'  # Яркий текст (желтый)
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'  # Математическая CAPTCHA
+
+# Усложняем генерацию CAPTCHA
+CAPTCHA_LENGTH = 6  # Длина текста (для текстовой капчи)
+CAPTCHA_NOISE_FUNCTIONS = (
+    'captcha.helpers.noise_arcs',  # Добавляем дуги
+    'captcha.helpers.noise_dots',  # Добавляем точки
+)
+CAPTCHA_FILTER_FUNCTIONS = (
+    'captcha.helpers.post_smooth',  # Сглаживание (немного размывает)
+)
+CAPTCHA_WORDS_DICTIONARY = '/usr/share/dict/words'  # Если используете словарную CAPTCHA
+CAPTCHA_TIMEOUT = 5  # Время жизни CAPTCHA (в минутах)
+
+# Усложняем математические задачи (если используете math_challenge)
+CAPTCHA_MATH_CHALLENGE_OPERATOR = '+-*'  # Включаем умножение
+CAPTCHA_IMAGE_GENERATOR = 'gallery.helpers.custom_captcha_image'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
