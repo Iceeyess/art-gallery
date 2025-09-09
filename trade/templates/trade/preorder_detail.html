@@ -1,0 +1,198 @@
+{% extends 'gallery/base.html' %}
+{% load path static %}
+{% block content %}
+
+<div class="container mt-4">
+    <h1 class="text-center text-custom-light mb-4">Корзина</h1>
+
+    {% if preorder_items %}
+    <form method="post" id="cart-form">
+        {% csrf_token %}
+        {{ formset.management_form }}
+
+        <div class="row">
+            {% for form in formset %}
+            {% with item=form.instance %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    {% if item.item.picture %}
+                    <img src="{{ item.item.picture.url }}" class="card-img-top" alt="{{ item.item.name }}" style="height: 300px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.item.name }}</h5>
+                        <p class="card-text">Цена за шт: {{ item.item.price }} руб.</p>
+
+                        <div class="mb-3">
+                            <label class="form-label text-custom-light">Количество:</label>
+                            {{ form.quantity }}
+                        </div>
+
+                        <p class="card-text fw-bold text-custom-orange">Общая стоимость: {{ item.total_price }} руб.</p>
+
+                        <div class="form-check mb-3">
+                            {{ form.DELETE }}
+                            <label class="form-check-label text-custom-light" for="{{ form.DELETE.id_for_label }}">
+                                Удалить из корзины
+                            </label>
+                        </div>
+
+                        {{ form.id }}
+                    </div>
+                </div>
+            </div>
+            {% endwith %}
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-4">
+            <h3 class="text-custom-light">Общая сумма: {{ total_sum }} руб.</h3>
+            <button type="submit" class="btn bg-custom-orange text-custom-teal btn-lg">Обновить корзину</button>
+            <button type="button" class="btn btn-success btn-lg ms-2" data-bs-toggle="modal" data-bs-target="#orderModal">
+                Сделать заказ
+            </button>
+        </div>
+    </form>
+    {% else %}
+        <div class="text-center">
+            <p class="text-custom-light">Ваша корзина пуста</p>
+            <a href="{% url 'gallery:index' %}" class="btn bg-custom-orange text-custom-teal">Вернуться в галерею</a>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Modal для оформления заказа -->
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-custom-orange">
+                <h5 class="modal-title text-custom-teal" id="orderModalLabel">Оформление заказа</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body bg-custom-light">
+                <h6 class="text-custom-orange mb-3">Ваш заказ:</h6>
+                <div class="row">
+                    {% for item in preorder_items %}
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex align-items-center">
+                            {% if item.item.picture %}
+                            <img src="{{ item.item.picture.url }}" class="img-thumbnail me-3" style="width: 80px; height: 80px; object-fit: cover;">
+                            {% endif %}
+                            <div>
+                                <p class="mb-1 text-custom-teal"><strong>{{ item.item.name }}</strong></p>
+                                <p class="mb-0 text-custom-teal">{{ item.quantity }} шт. × {{ item.item.price }} руб.</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <hr>
+
+                <form id="order-form">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-custom-teal">ФИО *</label>
+                            <input type="text" name="name" class="form-control" required placeholder="Иванов Иван Иванович">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-custom-teal">Email *</label>
+                            <input type="email" name="email" class="form-control" required placeholder="example@mail.ru">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-custom-teal">Телефон *</label>
+                            <input type="tel" name="phone" class="form-control" required placeholder="+7 999 123-45-67">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-custom-teal">Адрес доставки *</label>
+                            <textarea name="address" class="form-control" rows="2" required placeholder="г. Москва, ул. Примерная, д. 1, кв. 1, индекс 123456"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-custom-teal">Введите код с картинки *</label>
+                        <div class="captcha-container">
+                            {{ order_form.captcha }}
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-custom-orange">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-success" onclick="submitOrder()">Подтвердить заказ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function submitOrder() {
+    const formData = new FormData(document.getElementById('order-form'));
+    const submitBtn = document.querySelector('#orderModal .btn-success');
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Обработка...';
+
+    fetch('{% url "trade:create_order" %}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Показываем детали заказа
+            const order = data.order;
+            let message = `Заказ №${order.order_number} успешно оформлен!\n\n`;
+            message += `Общая сумма: ${order.total_amount} руб.\n\n`;
+            message += `Данные заказа:\n`;
+            message += `ФИО: ${order.contact.name}\n`;
+            message += `Email: ${order.contact.email}\n`;
+            message += `Телефон: ${order.contact.phone}\n`;
+            message += `Адрес: ${order.contact.address}\n\n`;
+            message += `Спасибо за заказ! Мы свяжемся с вами в ближайшее время.`;
+
+            alert(message);
+            $('#orderModal').modal('hide');
+            window.location.reload();
+        } else {
+            let errorMessage = 'Ошибка при оформлении заказа:\n';
+            if (data.errors) {
+                for (const field in data.errors) {
+                    errorMessage += `${data.errors[field].join(', ')}\n`;
+                }
+            } else if (data.error) {
+                errorMessage += data.error;
+            } else {
+                errorMessage += 'Неизвестная ошибка';
+            }
+            alert(errorMessage);
+        }
+    })
+    .catch(error => {
+        alert('Произошла ошибка при отправке заказа: ' + error);
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Подтвердить заказ';
+    });
+}
+</script>
+
+<style>
+.captcha-container img {
+    border: 2px solid #ff6b35;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.captcha-container input {
+    max-width: 200px;
+}
+</style>
+
+{% endblock %}

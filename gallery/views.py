@@ -7,6 +7,7 @@ from gallery.apps import GalleryConfig
 from gallery.forms import GenreForm, MessageForm
 from gallery.models import Picture, Genre, Message
 from gallery.tasks import send_tg_message
+from trade.models import PreOrder
 
 
 # Create your views here.
@@ -23,6 +24,7 @@ def index(request, *args, **kwargs):
     На главной странице 2 формы: Форма фильтрации жанров с методом GET, и форма обратной связи с методом POST."""
     form = GenreForm(request.GET)  # Загружаем форму для добавления картины
     form.is_valid()
+    client_ip, _ = get_client_ip(request)  # IP address
     if form.cleaned_data.get('genres') == [_.id for _ in Genre.objects.all()] or not form.cleaned_data.get('genres'):
         pictures = list(grouper(Picture.objects.all(), 3))
     else:
@@ -32,13 +34,13 @@ def index(request, *args, **kwargs):
     if request.method == 'POST':
         post_form = MessageForm(request.POST)  # Загружаем форму для отправки сообщения
         if post_form.is_valid():  # Если данные валидны, то сохраняем и обнуляем данные
-            client_ip = get_client_ip(request)[0]
             form = post_form.save()
             form.client_ip = client_ip
             form.save()
             send_tg_message.delay(form.name, form.email, form.text, form.client_ip, form.created_at)  # Передает в телеграм сообщение владельцу
             post_form = MessageForm()
-    data = dict(pictures=pictures, form=form, post_form=post_form)
+    data = dict(pictures=pictures, form=form, post_form=post_form,
+                preorder_list=[preorder_item.item for preorder_item in PreOrder.objects.filter(client_ip=client_ip)])
     return render(request, os.path.join(GalleryConfig.name, 'index.html'), context=data)
 
 
