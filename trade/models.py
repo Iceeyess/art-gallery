@@ -85,7 +85,14 @@ import uuid
 from django.utils import timezone
 
 def generate_order_number():
-    """Генерация уникального номера заказа"""
-    timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
-    unique_id = str(uuid.uuid4())[:8].upper()
-    return f"ORDER-{timestamp}-{unique_id}"
+    """Генерация простого порядкового номера заказа"""
+    last_order = Order.objects.order_by('-id').first()
+    if last_order:
+        # Пробуем получить номер из последнего заказа
+        try:
+            last_number = int(last_order.order_number)
+            return str(last_number + 1)
+        except (ValueError, TypeError):
+            # Если номер не числовой, начинаем с 1
+            return "1"
+    return "1"  # Первый заказ

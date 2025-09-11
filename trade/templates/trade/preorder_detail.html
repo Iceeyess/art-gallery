@@ -45,7 +45,7 @@
         </div>
 
         <div class="text-center mt-4">
-            <h3 class="text-custom-light">Общая сумма: {{ total_sum }} руб.</h3>
+            <h3 class="text-custom-orange">Общая сумма: {{ total_sum }} руб.</h3>
             <button type="submit" class="btn bg-custom-orange text-custom-teal btn-lg">Обновить корзину</button>
             <button type="button" class="btn btn-success btn-lg ms-2" data-bs-toggle="modal" data-bs-target="#orderModal">
                 Сделать заказ
@@ -132,6 +132,7 @@
 function submitOrder() {
     const formData = new FormData(document.getElementById('order-form'));
     const submitBtn = document.querySelector('#orderModal .btn-success');
+    const modal = document.getElementById('orderModal');
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Обработка...';
@@ -146,19 +147,14 @@ function submitOrder() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Показываем детали заказа
-            const order = data.order;
-            let message = `Заказ №${order.order_number} успешно оформлен!\n\n`;
-            message += `Общая сумма: ${order.total_amount} руб.\n\n`;
-            message += `Данные заказа:\n`;
-            message += `ФИО: ${order.contact.name}\n`;
-            message += `Email: ${order.contact.email}\n`;
-            message += `Телефон: ${order.contact.phone}\n`;
-            message += `Адрес: ${order.contact.address}\n\n`;
-            message += `Спасибо за заказ! Мы свяжемся с вами в ближайшее время.`;
+            // Простое сообщение с номером заказа
+            alert(data.message);
 
-            alert(message);
-            $('#orderModal').modal('hide');
+            // Закрываем модальное окно
+            const bootstrapModal = bootstrap.Modal.getInstance(modal);
+            bootstrapModal.hide();
+
+            // Перезагружаем страницу
             window.location.reload();
         } else {
             let errorMessage = 'Ошибка при оформлении заказа:\n';
@@ -175,7 +171,7 @@ function submitOrder() {
         }
     })
     .catch(error => {
-        alert('Произошла ошибка при отправке заказа: ' + error);
+        alert('Произошла ошибка при отправке заказа. Пожалуйста, попробуйте еще раз.');
     })
     .finally(() => {
         submitBtn.disabled = false;

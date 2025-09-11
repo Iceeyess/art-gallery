@@ -96,13 +96,13 @@ def create_order(request):
             form = OrderForm(request.POST)
 
             if form.is_valid():
-                # Создаем заказ
+                # Создаем заказ с простым номером
                 order_number = generate_order_number()
                 total_amount = sum(item.item.price * item.quantity for item in preorder_items)
 
                 order = Order.objects.create(
                     order_number=order_number,
-                    client_ip=client_ip,
+                    client_ip=client_ip,  # для внутреннего учета
                     total_amount=total_amount
                 )
 
@@ -123,7 +123,7 @@ def create_order(request):
                 # Очищаем корзину
                 preorder_items.delete()
 
-                # Формируем данные для ответа
+                # Формируем данные для ответа (БЕЗ IP!)
                 order_data = {
                     'order_number': order_number,
                     'total_amount': float(total_amount),
@@ -132,20 +132,12 @@ def create_order(request):
                         'email': contact.email,
                         'phone': contact.phone,
                         'address': contact.address
-                    },
-                    'items': [
-                        {
-                            'name': item.item.name,
-                            'quantity': item.quantity,
-                            'price': float(item.item.price)
-                        }
-                        for item in preorder_items
-                    ]
+                    }
                 }
 
                 return JsonResponse({
                     'success': True,
-                    'message': 'Заказ успешно оформлен!',
+                    'message': f'Ваш заказ № {order_number} успешно оформлен!',
                     'order': order_data
                 })
             else:
