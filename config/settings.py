@@ -15,10 +15,10 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from gallery.apps import GalleryConfig
-
+from trade.apps import TradeConfig
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'
-is_for_server = True
+is_for_server = False
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variables from.env file
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'captcha',
     'gallery',
+    'trade'
 ]
 
 # Увеличиваем сложность CAPTCHA
@@ -97,6 +98,8 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, GalleryConfig.name, 'templates'),
+            os.path.join(BASE_DIR, TradeConfig.name, 'templates'),
+
                  ],
         'APP_DIRS': True,
         'OPTIONS': {

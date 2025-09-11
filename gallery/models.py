@@ -53,6 +53,7 @@ class Picture(models.Model):
     picture = models.ImageField(upload_to='gallery/', verbose_name='путь к картине', help_text='загрузите картину')
     description = models.TextField(verbose_name='описание', help_text='опишите картину',
                                    **NULLABLE)
+    price = models.FloatField(default=0, verbose_name='цена', help_text='введите цену', **NULLABLE)
 
     def save(self, *args, **kwargs):
         """Переопределен для автосохранения полей self.name, self.description, self.series_number"""
@@ -67,6 +68,8 @@ class Picture(models.Model):
                                 f'{size.get(self.size)}')
         # Два раза вызов родительского сохранения из-за ID номера в БД
         super().save(*args, **kwargs)
+
+
 
     def __str__(self):
         return f'Картина №{self.id}, стиль - {self.series}'

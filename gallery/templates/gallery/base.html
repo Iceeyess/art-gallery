@@ -23,6 +23,24 @@
         #menu.open {
             display: block;
         }
+
+        /* Стили для увеличения изображения */
+        .artwork-container {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .artwork-image {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .artwork-image.zoomed {
+            transform: scale(1.5);
+            cursor: zoom-out;
+        }
     </style>
 
 </head>
@@ -33,15 +51,41 @@
     height: 100%;
     width: 100%">
 
+    {% block header %}
+    {% include 'gallery/header.html' %}
+    {% endblock %}
 
     {% block content %}
-
     {% endblock %}
 
     <!-- Футер -->
     {% include 'gallery/footer.html' %}
 
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+    <script>
+        // JavaScript для открытия/закрытия меню фильтра
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButton = document.getElementById('toggleButton');
+            const menu = document.getElementById('menu');
+
+            if (toggleButton && menu) {
+                toggleButton.addEventListener('click', () => {
+                    menu.classList.toggle('open');
+                    toggleButton.textContent = menu.classList.contains('open') ? 'Закрыть фильтр' : 'Открыть фильтр';
+                });
+            }
+
+            // JavaScript для увеличения изображения
+            const artworkContainers = document.querySelectorAll('.artwork-container');
+            artworkContainers.forEach(container => {
+                container.addEventListener('click', function() {
+                    const img = this.querySelector('.artwork-image');
+                    img.classList.toggle('zoomed');
+                });
+            });
+        });
+    </script>
 </div>
 </body>
 </html>

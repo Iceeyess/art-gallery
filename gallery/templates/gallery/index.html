@@ -3,42 +3,7 @@
 
 {% block content %}
 
-<!-- Навигационная панель -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-custom-orange" xmlns="http://www.w3.org/1999/html">
-    <div class="container">
-        <div style="height: 40px;">
-            <img src="{% static 'assets/new_logo.jpeg' %}" class="h-50">
-        </div>
-        <a class="navbar-brand text-custom-teal" href="">Natalis Domini моё арт-пространство</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link active text-custom-teal" aria-current="page" href="#">Главная</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-custom-teal" href="#gallery">Галерея</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-custom-teal" href="#about">О нас</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-custom-teal" href="#send_out">Написать нам</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-custom-teal" href="#contact">Контакты</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
 <!-- Форма для отправки фильтра -->
-
 <div class="container">
     <div class="col-3 mx-5 my-5">
         <button id="toggleButton" class="btn bg-custom-orange text-custom-teal">Фильтр</button>
@@ -55,21 +20,9 @@
     </div>
 </div>
 
-
-<script>
-    // JavaScript для открытия/закрытия меню
-    const toggleButton = document.getElementById('toggleButton');
-    const menu = document.getElementById('menu');
-
-    toggleButton.addEventListener('click', () => {
-        menu.classList.toggle('open'); // Добавляем/убираем класс .open
-        toggleButton.textContent = menu.classList.contains('open') ? 'Закрыть фильтр' : 'Открыть фильтр';
-    });
-</script>
 <!-- Галерея -->
-
 <div class="container my-auto" id="gallery">
-    <h1 class="text-center mb-4 text-custom-light" style="">Галерея картин</h1>
+    <h1 class="text-center mb-4 text-custom-light">Галерея картин</h1>
     <!-- Карусель -->
     <div id="artCarousel" class="carousel slide" data-bs-ride="carousel">
         <!-- Слайды -->
@@ -87,6 +40,16 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ image.name }}</h5>
                                 <p class="card-text">{{ image.description }}</p>
+                                <p class="card-text">Цена: {{ image.price }} руб.</p>
+                                {% if image not in preorder_list %}
+                                    <form method="GET" action="{% url 'trade:mark_to_buy' image.pk %}">
+                                        <input type="number" name="quantity" min="1" max="5" value="1" required>
+                                        <button type="submit" class="btn bg-custom-orange text-custom-teal">В корзину</button>
+                                    </form>
+                                {% else %}
+                                    <a href="{% url 'trade:mark_to_buy' image.pk %}" class="w-100 btn btn-sm btn-secondary"
+                                    style="align-center">Убрать из корзины</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -107,13 +70,13 @@
         </button>
     </div>
 </div>
-<br><>
+<br>
 
 <!-- О нас -->
 <section id="about">
     <div class="container">
-        <div class="row justify-content-center"> <!-- Центрируем ряд -->
-            <div class="col-auto"> <!-- Автоматическая ширина колонки -->
+        <div class="row justify-content-center">
+            <div class="col-auto">
                 <div class="card shadow-lg" style="max-width: 800px;">
                     <div class="row g-0">
                         <!-- Изображение -->
@@ -121,7 +84,7 @@
                             <img
                                 src="{% static 'images/art-owner.enc' %}"
                                 class="img-fluid rounded-start h-100"
-                                alt="Описание изображения"
+                                alt="Наталья - художник"
                                 style="object-fit: cover;"
                             >
                         </div>

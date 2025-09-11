@@ -1,12 +1,36 @@
+{% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-custom-orange">
     <div class="container">
-        <a class="navbar-brand text-custom-teal" href="#">Natalis Dominini моё арт-пространство</a>
+        <div style="height: 40px;">
+            <img src="{% static 'assets/new_logo.jpeg' %}" class="h-50" alt="Логотип">
+        </div>
+        <a class="navbar-brand text-custom-teal" href="{% url 'gallery:index' %}">Natalis Domini моё арт-пространство</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
 
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-custom-teal" href="{% url 'gallery:index' %}#">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-custom-teal" href="{% url 'gallery:index' %}#gallery">Галерея</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-custom-teal" href="{% url 'gallery:index' %}#about">О нас</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-custom-teal" href="{% url 'gallery:index' %}#send_out">Написать нам</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-custom-teal" href="{% url 'gallery:index' %}#contact">Контакты</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-custom-teal" href="{% url 'trade:pre_order_detail' %}">Корзина</a>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
