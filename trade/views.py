@@ -9,11 +9,12 @@ from django.db import transaction
 import json
 from datetime import datetime
 
+
 from gallery.models import Picture
 from trade.models import PreOrder, CardContact, Order, OrderItem
 from trade.forms import OrderForm
 from trade.models import generate_order_number
-
+from gallery.tasks import send_tg_order_notification
 
 def mark_to_buy(request, pk):
     """Метод для пометки товара для покупки."""
@@ -102,18 +103,24 @@ def create_order(request):
 
                 order = Order.objects.create(
                     order_number=order_number,
-                    client_ip=client_ip,  # для внутреннего учета
+                    client_ip=client_ip,
                     total_amount=total_amount
                 )
 
-                # Добавляем товары в заказ
+                # Добавляем товары в заказ и формируем список для Telegram
+                order_items = []
                 for preorder_item in preorder_items:
-                    OrderItem.objects.create(
+                    order_item = OrderItem.objects.create(
                         order=order,
                         item=preorder_item.item,
                         quantity=preorder_item.quantity,
                         price=preorder_item.item.price
                     )
+                    order_items.append({
+                        'name': preorder_item.item.name,
+                        'quantity': preorder_item.quantity,
+                        'price': float(preorder_item.item.price)
+                    })
 
                 # Сохраняем контакты
                 contact = form.save(commit=False)
@@ -123,7 +130,20 @@ def create_order(request):
                 # Очищаем корзину
                 preorder_items.delete()
 
-                # Формируем данные для ответа (БЕЗ IP!)
+                # Отправляем уведомление в Telegram с содержимым заказа
+                send_tg_order_notification.delay(
+                    order_number=order_number,
+                    total_amount=float(total_amount),
+                    client_ip=client_ip,
+                    name=contact.name,
+                    email=contact.email,
+                    phone=contact.phone,
+                    address=contact.address,
+                    created_at=datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                    order_items=order_items  # Передаем содержимое заказа
+                )
+
+                # Формируем данные для ответа
                 order_data = {
                     'order_number': order_number,
                     'total_amount': float(total_amount),
