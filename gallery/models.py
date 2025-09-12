@@ -4,7 +4,7 @@ from django.db.models import DO_NOTHING
 
 NULLABLE = dict(null=True, blank=True)
 size = dict(_40x60='40x60 см', _30x40='30x40 см', _50x60='50x60 см', _20x20='20x20 см', _70x20='70x20 см',
-            _60x80='60x80 см', _40x50='40x50 см', _50x70='50x70 см', )
+            _60x80='60x80 см', _40x50='40x50 см', _50x70='50x70 см', _50x50='50x50')
 paint = dict(oil='масляные', acrylic='акриловые', tempera='темпера', guash='гуашь', aquarel='акварель',
              oil_postel='масляная пастель')
 materials = dict(thick_cardboard='плотный картон, хлопок', fiberboard_canvas='холст на ДВП, хлопок',
