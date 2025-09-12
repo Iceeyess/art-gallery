@@ -6,7 +6,7 @@ from gallery.models import Picture
 # Create your models here.
 
 NULLABLE = {'blank': True, 'null': True}
-
+    
 
 class PreOrder(models.Model):
     """Модель корзины(предзаказ). После утверждения, модель стирается.

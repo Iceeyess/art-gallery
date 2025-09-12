@@ -1,7 +1,8 @@
+import datetime
 import requests
-
 from celery import shared_task
 from django.conf import settings
+from trade.models import PreOrder
 
 
 @shared_task
@@ -72,3 +73,14 @@ def send_tg_order_notification(order_number, total_amount, client_ip, name, emai
     except requests.RequestException as e:
         print(f"Ошибка отправки в Telegram: {e}")
         return False
+
+@shared_task
+def delete_preorder_items():
+    """Функция удаления их корзины старых помеченных к покупке товаров.
+    Если товар залежался более 1 часа, то удаляем его для всех покупателей. Функция мониторит раз в час."""
+    systime = datetime.datetime.now()
+    old_preorders = PreOrder.objects.filter(updated_at__lt=systime - datetime.timedelta(days=1))
+    quantity = len(old_preorders)
+    old_preorders.delete()
+    print(f'Удалено {quantity} товаров из корзины')
+    return None
