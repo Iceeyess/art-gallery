@@ -6,9 +6,9 @@ from trade.models import PreOrder, Order, OrderItem, CardContact
 # Register your models here.
 @admin.register(PreOrder)
 class PreOrderAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'client_ip', 'item', 'quantity')
-    list_display_link = ('pk', 'client_ip', 'item', 'quantity')
-
+    list_display = ('pk', 'client_ip', 'item', 'quantity', 'created_at', 'updated_at')
+    list_display_link = ('pk', 'client_ip', 'item', 'quantity', 'created_at', 'updated_at')
+    list_filter = ('client_ip', 'item', )
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
