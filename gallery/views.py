@@ -45,5 +45,8 @@ def index(request, *args, **kwargs):
 
 
 def picture_detail(request, pk):
+    client_ip, _ = get_client_ip(request)  # IP address
     obj = Picture.objects.get(pk=pk)
-    return render(request, os.path.join(GalleryConfig.name, 'detail.html'), context={'object': obj})
+    preorder_list = [preorder_item.item for preorder_item in PreOrder.objects.filter(client_ip=client_ip)]
+    return render(request, os.path.join(GalleryConfig.name, 'detail.html'), context={'object': obj,
+                                                                                     'preorder_list': preorder_list})

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -18,7 +19,7 @@ from gallery.apps import GalleryConfig
 from trade.apps import TradeConfig
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'
-is_for_server = True
+is_for_server = False
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variables from.env file
@@ -55,7 +56,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'captcha',
     'gallery',
-    'trade'
+    'trade',
+    'django_celery_beat'
 ]
 
 # Увеличиваем сложность CAPTCHA
@@ -80,6 +82,14 @@ CAPTCHA_TIMEOUT = 5  # Время жизни CAPTCHA (в минутах)
 # Усложняем математические задачи (если используете math_challenge)
 CAPTCHA_MATH_CHALLENGE_OPERATOR = '+-*'  # Включаем умножение
 CAPTCHA_IMAGE_GENERATOR = 'gallery.helpers.custom_captcha_image'
+
+# Настройки для Celery
+CELERY_BEAT_SCHEDULE = {
+    'task-name': {
+        'task': 'gallery.tasks.delete_preorder_items',  # Путь к задаче
+        'schedule': timedelta(days=1),  # Расписание выполнения задачи - каждый час
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
