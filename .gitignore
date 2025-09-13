@@ -150,12 +150,12 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# pytype static type analyzer
+# pytype static_dev type analyzer
 .pytype/
 
 # Cython debug symbols
 cython_debug/
-
+.static_dev/
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore

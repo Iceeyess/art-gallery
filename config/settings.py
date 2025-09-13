@@ -19,16 +19,11 @@ from gallery.apps import GalleryConfig
 from trade.apps import TradeConfig
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'
-is_for_server = True
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variables from.env file
-if is_for_server:
-    dot_env = os.path.join(BASE_DIR, '.env.server')
-    load_dotenv(dotenv_path=dot_env)
-else:
-    dot_env = os.path.join(BASE_DIR, '.env')
-    load_dotenv(dotenv_path=dot_env)
+dot_env = os.path.join(BASE_DIR, '.env')
+load_dotenv(dotenv_path=dot_env)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -39,10 +34,9 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
-if is_for_server:
-    ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
-else:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
+
 
 
 # Application definition
@@ -128,28 +122,17 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-if is_for_server:
-    DATABASES = {
-        'default': {
-            'ENGINE': os.getenv('DB_ENGINE'),
-            'NAME': os.getenv('DB_NAME'),
-            'USER': os.getenv('DB_USER'),
-            'PASSWORD': os.getenv('DB_PASSWORD'),
-            'HOST': os.getenv('DB_HOST'),
-            'PORT': os.getenv('DB_PORT'),
-        }
+
+DATABASES = {
+    'default': {
+        'ENGINE': os.getenv('DB_ENGINE'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': os.getenv('DATABASE_ENGINE'),
-            'NAME': os.getenv('DATABASE_NAME'),
-            'USER': os.getenv('DATABASE_USER'),
-            'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-            'HOST': os.getenv('DATABASE_HOST'),
-            'PORT': os.getenv('DATABASE_PORT'),
-        }
-    }
+}
 
 
 # Password validation
@@ -187,12 +170,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-if not is_for_server:
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'static')    # Для разработки
-    ]
-if is_for_server:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')   # Для Продакшн
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static_dev')    # Для разработки
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')   # Для Продакшн
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
