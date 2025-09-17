@@ -81,7 +81,7 @@ CAPTCHA_IMAGE_GENERATOR = 'gallery.helpers.custom_captcha_image'
 CELERY_BEAT_SCHEDULE = {
     'task-name': {
         'task': 'gallery.tasks.delete_preorder_items',  # Путь к задаче
-        'schedule': timedelta(days=1),  # Расписание выполнения задачи - каждый час
+        'schedule': timedelta(days=1),  # Расписание выполнения задачи - каждый день
     },
 }
 
