@@ -1,6 +1,10 @@
 {% extends 'gallery/base.html' %}
 {% load path %}
 
+{# ПЕРЕОПРЕДЕЛЯЕМ заголовок и описание для SEO #}
+{% block extra_title %}Картина "{{ object.name }}" | Купить картину маслом | Natalis Domini{% endblock %}
+{% block extra_desc %}Картина маслом «{{ object.name }}». Авторская работа. {{ object.description|truncatewords:20 }} Цена {{ object.price }} руб. Доставка по Москве.{% endblock %}
+
 {% block content %}
 
 <a href="{% url 'gallery:index' %}" class="btn bg-custom-orange text-custom-teal my-5 mx-5"
