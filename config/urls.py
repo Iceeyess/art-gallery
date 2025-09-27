@@ -18,6 +18,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
+from django.views.static import serve
 
 
 urlpatterns = [
@@ -25,6 +26,14 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
     path('', include('gallery.urls', namespace='gallery')),
     path('trade/', include('trade.urls', namespace='trade')),
+    path('robots.txt', serve, {
+        'document_root': settings.STATIC_ROOT,
+        'path': 'robots.txt'
+    }),
+    path('sitemap.xml', serve, {
+        'document_root': settings.STATIC_ROOT,
+        'path': 'sitemap.xml'
+    })
 ]
 
 if settings.DEBUG:
