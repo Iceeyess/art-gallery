@@ -43,7 +43,7 @@
                                 <p class="card-text">Цена: {{ image.price }} руб.</p>
                                 {% if image not in preorder_list %}
                                     <form method="GET" action="{% url 'trade:mark_to_buy' image.pk %}">
-                                        <input type="number" name="quantity" min="1" max="5" value="1" required>
+                                        <input type="hidden" name="quantity" value="1">
                                         <button type="submit" class="btn bg-custom-orange text-custom-teal">В корзину</button>
                                     </form>
                                 {% else %}
