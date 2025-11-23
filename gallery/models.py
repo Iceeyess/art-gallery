@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import DO_NOTHING
+from django.shortcuts import reverse
 
 
 NULLABLE = dict(null=True, blank=True)
@@ -56,6 +57,7 @@ class Picture(models.Model):
     price = models.FloatField(default=0, verbose_name='цена', help_text='введите цену', **NULLABLE)
     detailed_description = models.TextField(verbose_name='подробное описание', help_text='создайте описание картины',
                                             **NULLABLE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         """Переопределен для автосохранения полей self.name, self.description, self.series_number"""
@@ -72,7 +74,8 @@ class Picture(models.Model):
         # Два раза вызов родительского сохранения из-за ID номера в БД
         super().save(*args, **kwargs)
 
-
+    def get_absolute_url(self):
+        return reverse('gallery:detail', kwargs={'pk': self.pk})
 
     def __str__(self):
         return f'Картина №{self.id}, стиль - {self.series}'

@@ -19,6 +19,25 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.views.static import serve
+from django.contrib.sitemaps import Sitemap
+from gallery.models import Picture
+from django.contrib.sitemaps.views import sitemap
+
+
+class PictureSitemap(Sitemap):
+    changefreq = "weekly"
+    priority = 0.8
+
+    def items(self):
+        return Picture.objects.all()
+
+    def lastmod(self, obj):
+        return obj.created_at
+
+
+sitemaps = {
+    'pictures': PictureSitemap,
+}
 
 
 urlpatterns = [
@@ -30,10 +49,7 @@ urlpatterns = [
         'document_root': settings.STATIC_ROOT,
         'path': 'robots.txt'
     }),
-    path('sitemap.xml', serve, {
-        'document_root': settings.STATIC_ROOT,
-        'path': 'sitemap.xml'
-    })
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}),
 ]
 
 if settings.DEBUG:
