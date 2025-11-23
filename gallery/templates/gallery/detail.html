@@ -32,6 +32,7 @@
                     <form method="GET" action="{% url 'trade:mark_to_buy' object.pk %}"
                           class="d-flex align-items-center gap-2 flex-wrap">
                         <input type="hidden" name="quantity" value="1">
+                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
                         <button type="submit" class="btn bg-custom-orange text-custom-teal">В корзину</button>
                     </form>
                     {% else %}
