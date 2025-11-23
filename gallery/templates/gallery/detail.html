@@ -9,31 +9,57 @@
 
 <a href="{% url 'gallery:index' %}" class="btn bg-custom-orange text-custom-teal my-5 mx-5"
    style="align-center">Назад</a>
+
 <div class="container">
-    <div class="col-auto bg-custom-light">
-        <a href="{% get_url_picture object.picture %}">
-            <div class="artwork-container">
-                <img src="{% get_url_picture object.picture %}" alt="{{ object.name }}" class="artwork-image">
+    <div class="row">
+        <!-- Левая колонка - изображение и основная информация -->
+        <div class="col-lg-6 col-md-12 mb-4">
+            <div class="bg-custom-light p-3 rounded">
+                <a href="{% get_url_picture object.picture %}">
+                    <div class="artwork-container">
+                        <img src="{% get_url_picture object.picture %}" alt="{{ object.name }}"
+                             class="artwork-image img-fluid">
+                    </div>
+                </a>
+
+                <div class="mt-3">
+                    <h5 class="card-title">{{ object.name }}</h5>
+                    <!-- Краткое описание картины -->
+                    <p class="card-text">{{ object.description|truncatewords:30 }}</p>
+                    <p class="card-text fw-bold">Цена: {{ object.price }} руб.</p>
+
+                    {% if object not in preorder_list %}
+                    <form method="GET" action="{% url 'trade:mark_to_buy' object.pk %}"
+                          class="d-flex align-items-center gap-2 flex-wrap">
+                        <input type="number" name="quantity" min="1" max="5" value="1" required class="form-control"
+                               style="width: 80px;">
+                        <button type="submit" class="btn bg-custom-orange text-custom-teal">В корзину</button>
+                    </form>
+                    {% else %}
+                    <a href="{% url 'trade:mark_to_buy' object.pk %}" class="btn btn-secondary w-100"
+                       style="align-center">Убрать из корзины</a>
+                    {% endif %}
+                </div>
             </div>
-        </a>
-        <h5 class="card-title">{{ object.name }}</h5>
-        <!-- Описание картины -->
-        <p class="card-text">{{ object.description }}</p>
-        <p class="card-text">Цена: {{ object.price }} руб.</p>
+        </div>
 
-        {% if object not in preorder_list %}
-            <form method="GET" action="{% url 'trade:mark_to_buy' object.pk %}">
-                <input type="number" name="quantity" min="1" max="5" value="1" required>
-                <button type="submit" class="btn bg-custom-orange text-custom-teal">В корзину</button>
-            </form>
-        {% else %}
-            <a href="{% url 'trade:mark_to_buy' object.pk %}" class="w-100 btn btn-sm btn-secondary"
-            style="align-center">Убрать из корзины</a>
-        {% endif %}
+        <!-- Правая колонка - детали картины -->
+        <div class="col-lg-6 col-md-12 mb-4">
+            <div class="bg-custom-light p-3 rounded h-100">
+                <h4 class="mb-3">Подробное описание:</h4>
+                <!-- Подробное описание -->
+                <div class="detail-item">
+                    <div class="mt-2">
+                        {% if object.detailed_description %}
+                        {{ object.detailed_description|linebreaks }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
-<a href="{% url 'gallery:index' %}" class="btn bg-custom-orange text-custom-teal my-5 mx-5"
-   style="align-center">Назад</a>
+    <a href="{% url 'gallery:index' %}" class="btn bg-custom-orange text-custom-teal my-5 mx-5"
+       style="align-center">Назад</a>
 
-{% endblock %}
+    {% endblock %}

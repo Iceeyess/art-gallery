@@ -54,6 +54,8 @@ class Picture(models.Model):
     description = models.TextField(verbose_name='описание', help_text='опишите картину',
                                    **NULLABLE)
     price = models.FloatField(default=0, verbose_name='цена', help_text='введите цену', **NULLABLE)
+    detailed_description = models.TextField(verbose_name='подробное описание', help_text='создайте описание картины',
+                                            **NULLABLE)
 
     def save(self, *args, **kwargs):
         """Переопределен для автосохранения полей self.name, self.description, self.series_number"""
