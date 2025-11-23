@@ -4,4 +4,5 @@ Disallow: /admin/
 User-agent: *
 Allow: /
 
+Sitemap: https://natalis-domini.ru/sitemap.xml
 Sitemap: https://www.natalis-domini.ru/sitemap.xml
