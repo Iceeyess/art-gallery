@@ -16,9 +16,14 @@ from trade.forms import OrderForm
 from trade.models import generate_order_number
 from gallery.tasks import send_tg_order_notification
 
+
 def mark_to_buy(request, pk):
     """Метод для пометки товара для покупки."""
     quantity = request.GET.get('quantity', 1)
+
+    # Получаем next параметр или используем текущий URL как fallback
+    next_url = request.GET.get('next') or request.META.get('HTTP_REFERER') or reverse('gallery:index')
+
     obj = get_object_or_404(Picture, pk=pk)
     client_ip, _ = get_client_ip(request)
     preorder_by_ip = PreOrder.objects.filter(client_ip=client_ip, item=obj)
@@ -28,7 +33,7 @@ def mark_to_buy(request, pk):
     elif preorder_by_ip.exists():
         preorder_by_ip.delete()
 
-    return redirect(reverse('gallery:index'))
+    return redirect(next_url)
 
 
 def pre_order_detail(request):
