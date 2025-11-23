@@ -31,8 +31,7 @@
                     {% if object not in preorder_list %}
                     <form method="GET" action="{% url 'trade:mark_to_buy' object.pk %}"
                           class="d-flex align-items-center gap-2 flex-wrap">
-                        <input type="number" name="quantity" min="1" max="5" value="1" required class="form-control"
-                               style="width: 80px;">
+                        <input type="hidden" name="quantity" value="1">
                         <button type="submit" class="btn bg-custom-orange text-custom-teal">В корзину</button>
                     </form>
                     {% else %}
