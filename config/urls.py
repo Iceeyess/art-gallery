@@ -34,9 +34,9 @@ class PictureSitemap(Sitemap):
     def lastmod(self, obj):
         return obj.created_at
 
-    def location(self, obj):
-        # Явно указываем правильный URL БЕЗ www
-        return f"https://natalis-domini.ru/{obj.pk}"
+    # def location(self, obj):
+    #     # Явно указываем правильный URL БЕЗ www
+    #     return f"https://natalis-domini.ru/{obj.pk}"
 
 
 sitemaps = {
