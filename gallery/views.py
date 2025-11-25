@@ -50,13 +50,13 @@ def picture_detail(request, pk):
     return render(request, os.path.join(GalleryConfig.name, 'detail.html'), context={'object': obj,
                                                                                      'preorder_list': preorder_list})
 def handler404(request, exception):
-    return render(request, '404.html', status=404)
+    return render(request, os.path.join(GalleryConfig.name, '404.html'), status=404)
 
 def handler500(request):
-    return render(request, '500.html', status=500)
+    return render(request, os.path.join(GalleryConfig.name, '500.html'), status=500)
 
 def handler403(request, exception):
-    return render(request, '403.html', status=403)
+    return render(request, os.path.join(GalleryConfig.name, '403.html'), status=403)
 
 def handler400(request, exception):
-    return render(request, '400.html', status=400)
+    return render(request, os.path.join(GalleryConfig.name, '400.html'), status=400)
