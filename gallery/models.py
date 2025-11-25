@@ -76,8 +76,7 @@ class Picture(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        relative_url = reverse('gallery:detail', kwargs={'pk': self.pk})
-        return  f'{settings.SITE_URL}{relative_url}'
+        return reverse('gallery:detail', kwargs={'pk': self.pk})
 
     def __str__(self):
         return f'Картина №{self.id}, стиль - {self.series}'
