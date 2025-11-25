@@ -1,16 +1,23 @@
 {% extends 'gallery/base.html' %}
 
-{% block title %}Страница не найдена - авторские картины от Natalis Domini{% endblock %}
+{% block title %}Неверный запрос - авторские картины от Natalis Domini{% endblock %}
 
 {% block content %}
-<div class="container text-center my-5">
-    <div class="col-md-12">
-        <h1 class="display-1 text-custom-orange">400</h1>
-        <h2 class="text-custom-teal">Неверный запрос</h2>
-        <p class="lead">Сервер не может обработать ваш запрос.</p>
-        <a href="{% url 'gallery:index' %}" class="btn bg-custom-orange text-custom-teal mt-3">
-            Вернуться в галерею
-        </a>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-5 text-center">
+                    <h1 class="display-1 text-custom-orange fw-bold">400</h1>
+                    <h2 class="text-custom-teal mb-4">Неверный запрос</h2>
+                    <p class="lead text-muted mb-4">Сервер не может обработать ваш запрос.</p>
+                    <p class="text-muted mb-4">Пожалуйста, проверьте правильность введенного адреса.</p>
+                    <a href="{% url 'gallery:index' %}" class="btn bg-custom-orange text-white btn-lg px-4">
+                        Вернуться в галерею
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
