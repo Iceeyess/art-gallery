@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import DO_NOTHING
 from django.shortcuts import reverse
+from django.conf import settings
 
 
 NULLABLE = dict(null=True, blank=True)
@@ -75,7 +76,8 @@ class Picture(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('gallery:detail', kwargs={'pk': self.pk})
+        relative_url = reverse('gallery:detail', kwargs={'pk': self.pk})
+        return  f'{settings.SITE_URL}{relative_url}'
 
     def __str__(self):
         return f'Картина №{self.id}, стиль - {self.series}'

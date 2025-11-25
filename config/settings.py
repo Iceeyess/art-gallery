@@ -211,3 +211,6 @@ if CACHES_ENABLED:
 CSRF_TRUSTED_ORIGINS = ['https://natalis-domini.ru', 'https://www.natalis-domini.ru']
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+# для .env file, чтобы в sitemap.xml можно было маневрироваться между сайтами с www. и без www.
+SITE_DOMAIN = os.getenv('SITE_DOMAIN', 'www.natalis-domini.ru')  # ← www по умолчанию
+SITE_URL = f'https://{SITE_DOMAIN}' if SITE_DOMAIN != 'localhost:8000' else f'http://{SITE_DOMAIN}'
