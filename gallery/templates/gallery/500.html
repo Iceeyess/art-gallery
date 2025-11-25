@@ -1,21 +1,27 @@
 {% extends 'gallery/base.html' %}
 
-{% block title %}Страница не найдена - авторские картины от Natalis Domini{% endblock %}
+{% block title %}Ошибка сервера - авторские картины от Natalis Domini{% endblock %}
 
 {% block content %}
-<div class="container text-center my-5">
-    <div class="col-md-12">
-        <h1 class="display-1 text-custom-orange">500</h1>
-        <h2 class="text-custom-teal">Ошибка сервера</h2>
-        <p class="lead">На сайте временные технические работы.</p>
-        <p>Пожалуйста, попробуйте позже или свяжитесь с нами через форму обратной связи. Мы обязательно с Вами свяжемся.</p>
-        <div class="mt-4">
-            <a href="{% url 'gallery:index' %}" class="btn bg-custom-orange text-custom-teal mx-2">
-                На главную
-            </a>
-            <a href="{% url 'gallery:index' %}#contact" class="btn bg-custom-teal text-custom-orange mx-2">
-                Написать нам
-            </a>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-5 text-center">
+                    <h1 class="display-1 text-custom-orange fw-bold">500</h1>
+                    <h2 class="text-custom-teal mb-4">Ошибка сервера</h2>
+                    <p class="lead text-muted mb-4">На сайте временные технические работы.</p>
+                    <p class="text-muted mb-4">Мы уже работаем над устранением проблемы. Пожалуйста, попробуйте позже.</p>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <a href="{% url 'gallery:index' %}" class="btn bg-custom-orange text-white me-md-2">
+                            На главную
+                        </a>
+                        <a href="{% url 'gallery:index' %}#contact" class="btn bg-custom-teal text-white">
+                            Написать нам
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
