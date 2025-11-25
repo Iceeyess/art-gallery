@@ -8,9 +8,9 @@ class WwwRedirectMiddleware:
     def __call__(self, request):
         host = request.get_host()
 
-        # Если запрос к домену С www - редиректим на версию БЕЗ www
-        if host == 'www.natalis-domini.ru':
-            new_url = f"https://natalis-domini.ru{request.path}"
+        # Если запрос к домену БЕЗ www - редиректим на версию С www
+        if host == 'natalis-domini.ru':
+            new_url = f"https://www.natalis-domini.ru{request.path}"
             return HttpResponsePermanentRedirect(new_url)
 
         return self.get_response(request)
