@@ -1,0 +1,16 @@
+{% extends 'gallery/base.html' %}
+
+{% block title %}Страница не найдена - авторские картины от Natalis Domini{% endblock %}
+
+{% block content %}
+<div class="container text-center my-5">
+    <div class="col-md-12">
+        <h1 class="display-1 text-custom-orange">400</h1>
+        <h2 class="text-custom-teal">Неверный запрос</h2>
+        <p class="lead">Сервер не может обработать ваш запрос.</p>
+        <a href="{% url 'gallery:index' %}" class="btn bg-custom-orange text-custom-teal mt-3">
+            Вернуться в галерею
+        </a>
+    </div>
+</div>
+{% endblock %}
