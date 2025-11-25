@@ -24,6 +24,12 @@ from gallery.models import Picture
 from django.contrib.sitemaps.views import sitemap
 
 
+
+handler404 = 'gallery.views.handler404'
+handler500 = 'gallery.views.handler500'
+handler403 = 'gallery.views.handler403'
+handler400 = 'gallery.views.handler400'
+
 class PictureSitemap(Sitemap):
     changefreq = "weekly"
     priority = 0.8
@@ -59,3 +65,9 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    # В продакшне использовать кастомные страницы
+    handler404 = 'gallery.views.handler404'
+    handler500 = 'gallery.views.handler500'
+    handler403 = 'gallery.views.handler403'
+    handler400 = 'gallery.views.handler400'

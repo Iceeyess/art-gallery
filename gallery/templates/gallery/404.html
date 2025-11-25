@@ -1,0 +1,19 @@
+{% extends 'gallery/base.html' %}
+
+{% block title %}Страница не найдена - авторские картины от Natalis Domini{% endblock %}
+
+{% block content %}
+<div class="container text-center my-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="display-1 text-custom-orange">404</h1>
+            <h2 class="text-custom-teal">Страница не найдена</h2>
+            <p class="lead">Извините, но такой страницы не существует.</p>
+            <p>Возможно, картина была перемещена или удалена.</p>
+            <a href="{% url 'gallery:index' %}" class="btn bg-custom-orange text-custom-teal mt-3">
+                Вернуться в галерею
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
