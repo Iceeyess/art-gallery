@@ -22,6 +22,7 @@ from django.views.static import serve
 from django.contrib.sitemaps import Sitemap
 from gallery.models import Picture
 from django.contrib.sitemaps.views import sitemap
+from gallery.views import yml_feed
 
 
 class PictureSitemap(Sitemap):
@@ -50,6 +51,7 @@ urlpatterns = [
         'path': 'robots.txt'
     }),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}),
+    path('yml.xml', yml_feed, name='yml_feed'),
 ]
 
 if settings.DEBUG:
