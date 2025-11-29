@@ -1,6 +1,8 @@
+from datetime import datetime
 import os
 from itertools import zip_longest
 
+from django.http import HttpResponse
 from django.shortcuts import render
 from ipware import get_client_ip
 from gallery.apps import GalleryConfig
@@ -8,6 +10,7 @@ from gallery.forms import GenreForm, MessageForm
 from gallery.models import Picture, Genre, Message
 from gallery.tasks import send_tg_message
 from trade.models import PreOrder
+from django.views.decorators.cache import cache_page
 
 
 # Create your views here.
@@ -60,3 +63,41 @@ def handler403(request, exception):
 
 def handler400(request, exception):
     return render(request, os.path.join(GalleryConfig.name, '400.html'), status=400)
+
+@cache_page(60 * 60)
+def yml_feed(request):
+    """Функция для отображения XML структуры для Yandex для фид товаров"""
+    pictures = Picture.objects.all()
+
+    yml_content = ['<?xml version="1.0" encoding="UTF-8"?>']
+    yml_content.append('<yml_catalog date="{}">'.format(datetime.now().strftime("%Y-%m-%d %H:%M")))
+    yml_content.append('  <shop>')
+    yml_content.append('    <name>Natalis Domini - авторские картины</name>')
+    yml_content.append('    <company>Natalis Domini</company>')
+    yml_content.append('    <url>https://www.natalis-domini.ru/</url>')
+    yml_content.append('    <currencies>')
+    yml_content.append('      <currency id="RUR" rate="1"/>')
+    yml_content.append('    </currencies>')
+    yml_content.append('    <categories>')
+    yml_content.append('      <category id="1">Картины маслом</category>')
+    yml_content.append('    </categories>')
+    yml_content.append('    <offers>')
+
+    for picture in pictures:
+        yml_content.append('      <offer id="{}">'.format(picture.pk))
+        yml_content.append('        <url>https://www.natalis-domini.ru/{}</url>'.format(picture.pk))
+        yml_content.append('        <price>{}</price>'.format(int(picture.price)))
+        yml_content.append('        <currencyId>RUR</currencyId>')
+        yml_content.append('        <categoryId>1</categoryId>')
+        yml_content.append('        <picture>https://www.natalis-domini.ru{}</picture>'.format(picture.picture.url))
+        yml_content.append('        <name>{}</name>'.format(picture.name))
+        yml_content.append('        <description>{}</description>'.format(picture.description))
+        yml_content.append('        <artist>Natalis Domini</artist>')
+        yml_content.append('        <dimensions>{} см</dimensions>'.format(picture.size))
+        yml_content.append('      </offer>')
+
+    yml_content.append('    </offers>')
+    yml_content.append('  </shop>')
+    yml_content.append('</yml_catalog>')
+
+    return HttpResponse('\n'.join(yml_content), content_type='application/xml')
