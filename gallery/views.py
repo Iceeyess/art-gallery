@@ -72,8 +72,8 @@ def yml_feed(request):
     yml_content = ['<?xml version="1.0" encoding="UTF-8"?>']
     yml_content.append('<yml_catalog date="{}">'.format(datetime.now().strftime("%Y-%m-%d %H:%M")))
     yml_content.append('  <shop>')
-    yml_content.append('    <name>Natalis Domini - авторские картины</name>')
-    yml_content.append('    <company>Natalis Domini</company>')
+    yml_content.append('    <name>Natalis Domini(Наталис Домини) - авторские картины</name>')
+    yml_content.append('    <company>Natalis Domini(Наталис Домини)</company>')
     yml_content.append('    <url>https://www.natalis-domini.ru/</url>')
     yml_content.append('    <currencies>')
     yml_content.append('      <currency id="RUR" rate="1"/>')
@@ -93,7 +93,7 @@ def yml_feed(request):
         yml_content.append('        <name>{}</name>'.format(picture.name))
         yml_content.append('        <description>{}</description>'.format(picture.description))
         yml_content.append('        <artist>Natalis Domini</artist>')
-        yml_content.append('        <dimensions>{} см</dimensions>'.format(picture.size))
+        yml_content.append('        <dimensions>{}</dimensions>'.format('/'.join(picture.size[1:].split('x') + ['0.5'])))
         yml_content.append('      </offer>')
 
     yml_content.append('    </offers>')
