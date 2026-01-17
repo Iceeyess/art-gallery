@@ -62,17 +62,22 @@ class Picture(models.Model):
 
     def save(self, *args, **kwargs):
         """Переопределен для автосохранения полей self.name, self.description, self.series_number"""
-        # Определяем последний сохраненный объект из этой же серии, СТРОГО ДО СОХРАНЕНИЯ В БД!
-        is_update = self.pk is not None
-        super().save(*args, **kwargs)
-        # Если создание, то увеличиваем порядковый номер серии на + 1
-        if not is_update:
-            num = getattr(Picture.objects.filter(series=self.series).order_by('series').last(), 'series_number', 0)
-            self.series_number = num + 1  # Сохраняем № серии
+        # Если это создание новой картины (нет pk)
+        if not self.pk:
+            # Получаем последнюю картину в этой серии
+            last_in_series = Picture.objects.filter(series=self.series).order_by('-series_number').first()
+            # Получаем номер последней картины или 0 если картин в серии еще нет
+            last_number = getattr(last_in_series, 'series_number', 0)
+            self.series_number = last_number + 1
+
+        # Формируем название и описание
         self.name = f'Серия {self.series.name} № {self.series_number}'
-        self.description = (f'{self.name}, {paint.get(self.paint_property)} краски, размер '
-                            f'{size.get(self.size)}, материал {materials.get(self.material)}')
-        # Два раза вызов родительского сохранения из-за ID номера в БД
+        self.description = (
+            f'{self.name}, {paint.get(self.paint_property)} краски, '
+            f'размер {size.get(self.size)}, материал {materials.get(self.material)}'
+        )
+
+        # Сохраняем объект
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
