@@ -63,7 +63,7 @@ services:
       - DB_ENGINE=django.db.backends.postgresql
       - DB_NAME=artgallery
       - DB_USER=postgres
-      - DB_PASSWORD=qwerty12345
+      - DB_PASSWORD=SuPerPaSsWoRd@WiLLNoTLiKeYoU203956
       - DB_HOST=db
       - DB_PORT=5432
       - CELERY_BROKER_URL=redis://:qwerty12345@redis:6379/0
@@ -87,7 +87,7 @@ services:
       - DB_ENGINE=django.db.backends.postgresql
       - DB_NAME=artgallery
       - DB_USER=postgres
-      - DB_PASSWORD=qwerty12345
+      - DB_PASSWORD=SuPerPaSsWoRd@WiLLNoTLiKeYoU203956
       - DB_HOST=db
       - DB_PORT=5432
       - CELERY_BROKER_URL=redis://:qwerty12345@redis:6379/0
